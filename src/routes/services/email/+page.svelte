@@ -70,7 +70,7 @@
 </script>
 
 <div class="flex flex-col items-center">
-	<h1>Email Generator</h1>
+	<h1 class="text-5xl font-semibold">Email Generator</h1>
 </div>
 <div class="my-6">
     <form autocomplete="off" on:submit|preventDefault={() => handleSubmit()}>
