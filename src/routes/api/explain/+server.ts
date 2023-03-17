@@ -3,6 +3,7 @@ import { oneLine, stripIndent } from 'common-tags'
 import type { RequestHandler } from './$types'
 import type { CreateChatCompletionRequest, ChatCompletionRequestMessage } from 'openai'
 import { ChatCompletionRequestMessageRoleEnum } from 'openai'
+import { OPENAI_KEY } from '$env/static/private'
 import { error, type Config } from '@sveltejs/kit'
 
 export const config: Config = {
@@ -29,14 +30,14 @@ export const POST: RequestHandler = async ({ request }) => {
 			throw new Error('Request data missing')
 		}
 		const { input_form } = requestData
-		console.log(input_form.SETTINGS)
+		//(input_form.SETTINGS)
 		if (!input_form) {
 			throw new Error('No context provided')
 		}
 		const cleanedInputs = stripIndent`
 			${JSON.stringify(input_form.SETTINGS)}
         `
-		console.log(cleanedInputs)
+		//console.log(cleanedInputs)
 
 		/*const prompt = stripIndent`
         ${oneLine`
@@ -68,13 +69,13 @@ export const POST: RequestHandler = async ({ request }) => {
 			model: 'gpt-3.5-turbo',
 			messages: chat_log,
 			max_tokens: 1000,
-			temperature: 1,
+			temperature: .8,
 			stream: true
 		}
 
 		const response = await fetch('https://api.openai.com/v1/chat/completions', {
 			headers: {
-				Authorization: `Bearer ${process.env.OPENAI_KEY}`,
+				Authorization: `Bearer ${OPENAI_KEY}`,
 				'Content-Type': 'application/json'
 			},
 			method: 'POST',
@@ -86,7 +87,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			console.error(err)
 			throw new Error('Failed to create completion', err)
 		}
-		console.log(response.body)
+		//console.log(response.body)
 		return new Response(response.body, {
 			headers: {
 				'Content-Type': 'text/event-stream'

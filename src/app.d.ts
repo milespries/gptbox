@@ -7,6 +7,9 @@ declare global {
 		// interface Locals {}
 		// interface PageData {}
 		// interface Platform {}
+		interface ImportMetaEnv {
+			VITE_MESSAGE: string
+		}
 	}
 }
 
