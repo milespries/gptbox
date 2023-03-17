@@ -121,6 +121,6 @@
                 {@html answer}
             </div>
         {/if}
-        <div bind:this={scrollToDiv}></div>
     </form>
 </div>
+<div bind:this={scrollToDiv}></div>
