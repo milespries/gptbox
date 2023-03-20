@@ -1,5 +1,9 @@
 <script lang="ts">
+	import type { PageData } from './$types';
 
+	export let data: PageData;
+
+	console.log(data.session)
 </script>
 
 <div class="flex flex-col items-center">
@@ -17,7 +21,12 @@
 
 
 
+
+
 <!--<form on:submit|preventDefault={() => handleSubmit()}>
+	{#if data.session}
+	<h1>{data.session.uuid}</h1>
+{/if}
 	<label for="context">Ask anything</label>
 	<textarea name="context" rows="5" bind:value={context} />
 	<button disabled="{loading}">RESPOND NOW</button>

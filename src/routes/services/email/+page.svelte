@@ -1,15 +1,14 @@
 <script lang="ts">
-	import type { CreateChatCompletionResponse } from 'openai'
+	import type { ChatCompletionRequestMessage, CreateChatCompletionResponse } from 'openai'
 	import { SSE } from 'sse.js'
 
 	let input_form = { "SETTINGS": { "user": "", "user_age": "", "recipient": "", "recipient_age": "", "recipient_description": "", "email_style": "", "email_purpose": "", "email_length": "" } }
-	let context = ''
-	let loading = false
-    let temp_loading = false
-	let error = false
-	let answer = ''
-    let scrollToDiv: HTMLDivElement
-	let answerHTML: HTMLDivElement
+	let query: string = ''
+	let answer: string = ''
+	let loading: boolean = false
+    let temp_loading: boolean = false
+	let chatMessages: ChatCompletionRequestMessage[] = []
+	let scrollToDiv: HTMLDivElement
 
     function scrollToBottom() {
 		setTimeout(function () {
@@ -19,23 +18,23 @@
 
 	const handleSubmit = async () => {
 		//const botResponse = answer ?? undefined
+
+        if(temp_loading) return
+
 		loading = true
         temp_loading = true
-		error = false
-		answer = ''
-
+		chatMessages = [...chatMessages, { role: 'user', content: JSON.stringify(input_form) }]
 
 		const eventSource = new SSE('/api/explain', {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			payload: JSON.stringify({ input_form })
+			payload: JSON.stringify({ messages: chatMessages })
 		})
 
-		context = ''
+		query = ''
 
 		eventSource.addEventListener('error', (e) => {
-			error = true
 			loading = false
 			alert('Something went wrong!')
 		})
@@ -46,26 +45,34 @@
 				loading = false
 				//console.log(e.data)
 				if (e.data === '[DONE]') {
+                    chatMessages = [...chatMessages, { role: 'assistant', content: answer }]
+					//answer = ''
 					return
 				}
 
-				const completionResponse: CreateChatCompletionResponse = JSON.parse(e.data)
-				const final = completionResponse.choices[0].delta.content
+                const completionResponse = JSON.parse(e.data)
+				const [{ delta }] = completionResponse.choices
 
-				if(final){
-					answer = (answer ?? '') + final
+				if(delta.content){
+					answer = (answer ?? '') + delta.content
 				}
 				//console.log(completionResponse.choices[0].delta.content)
 			} catch (err) {
-				error = true
 				loading = false
-				console.error(err)
+				handleError(err)
 				//alert('Something went wrong!')
 			}
 		})
 
 		eventSource.stream()
         scrollToBottom()
+	}
+
+    function handleError<T>(err: T) {
+		loading = false
+		query = ''
+		answer = ''
+		console.error(err)
 	}
 </script>
 
@@ -85,22 +92,36 @@
             </div>
             <div>
                 <label for="user_age" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sender's age</label>
-                <input type="number" id="user_age" bind:value={input_form.SETTINGS.user_age} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="18" min="1" max="100">
+                <select id="user_age" bind:value={input_form.SETTINGS.user_age} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="" selected>Select Generation</option>
+                    <option value="Generation Z">👦 Gen Z</option>
+                    <option value="Generation X">👨‍🦰 Gen X</option>
+                    <option value="Generation Y">🧔‍♀️ Gen Y</option>
+                    <option value="Boomer/old">👴 Boomer</option>
+                </select>
             </div>  
             <div>
                 <label for="recipient_age" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Recipient's age</label>
-                <input type="number" id="recipient_age" bind:value={input_form.SETTINGS.recipient_age} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="18" min="1" max="100">
+                <select id="recipient_age" bind:value={input_form.SETTINGS.recipient_age} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="" selected>Select Generation</option>
+                    <option value="Generation Z">👦 Gen Z</option>
+                    <option value="Generation X">👨‍🦰 Gen X</option>
+                    <option value="Generation Y">🧔‍♀️ Gen Y</option>
+                    <option value="Boomer/old">👴 Boomer</option>
+                </select>
             </div>
             <div>
                 <label for="style" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Style</label>
                 <select id="style" bind:value={input_form.SETTINGS.email_style} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="" selected>Select Style</option>
                     <option value="Personal">Personal</option>
                     <option value="Professional">Professional</option>
                 </select>
             </div>
             <div>
-                <label for="style" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Length</label>
-                <select id="style" bind:value={input_form.SETTINGS.email_length} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <label for="length" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Length</label>
+                <select id="length" bind:value={input_form.SETTINGS.email_length} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="" selected>Select Length</option>
                     <option value="Short">Short</option>
                     <option value="Medium">Medium</option>
                     <option value="Long">Long</option>
@@ -109,11 +130,11 @@
         </div>
         <div class="mb-6">
             <label for="relationship" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">How do you know the recipient?</label>
-            <input type="text" id="relationship" bind:value={input_form.SETTINGS.recipient_description} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="He's my friend from school" required>
+            <input type="text" id="relationship" bind:value={input_form.SETTINGS.recipient_description} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="He's my Coworker at Amazon." required>
         </div>
         <div class="mb-6">   
             <label for="context" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">What is your goal for this email?</label>
-            <textarea id="context" rows="4" bind:value={input_form.SETTINGS.email_purpose} class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="He has the answers to the math test 6th period, but I barley know him. I need to get the answers."></textarea>
+            <textarea id="context" rows="4" bind:value={input_form.SETTINGS.email_purpose} class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="I want to discuss our pay to see if we are being paid fairly."></textarea>
         </div>
         <button type="submit" disabled="{temp_loading}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mb-10 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Generate 💫</button>
         {#if answer}
