@@ -6,15 +6,21 @@
 	let query: string = ''
 	let answer: string = ''
 	let loading: boolean = false
+    let retry_attempts: number = 0
     let temp_loading: boolean = false
 	let chatMessages: ChatCompletionRequestMessage[] = []
 	let scrollToDiv: HTMLDivElement
+    let complete: boolean = false
 
     function scrollToBottom() {
 		setTimeout(function () {
 			scrollToDiv.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' })
 		}, 100)
 	}
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(document.getElementById('answer')?.childNodes[0].wholeText)
+    }
 
 	const handleSubmit = async () => {
 		//const botResponse = answer ?? undefined
@@ -46,6 +52,7 @@
 				//console.log(e.data)
 				if (e.data === '[DONE]') {
                     chatMessages = [...chatMessages, { role: 'assistant', content: answer }]
+                    complete = true
 					//answer = ''
 					return
 				}
@@ -139,9 +146,17 @@
         <button type="submit" disabled="{temp_loading}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mb-10 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Generate 💫</button>
         {#if answer}
             <div class="w-full max-w-sm p-4 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                {@html answer}
+                <div id="answer">{@html answer}</div>
+                {#if complete}
+                    <div class="grid grid-cols-2 gap-2 pt-5">
+                        <div>
+                            <button type="button" on:click={() => {handleCopy()}} class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Copy</button>
+                        </div>
+                    </div> 
+                {/if}
             </div>
         {/if}
     </form>
+
 </div>
 <div bind:this={scrollToDiv}></div>
