@@ -5,6 +5,7 @@
 	let input_form = { "SETTINGS": { "user": "", "user_age": "", "recipient": "", "recipient_age": "", "recipient_description": "", "email_style": "", "email_purpose": "", "email_length": "" } }
 	let query: string = ''
 	let answer: string = ''
+    let answer_continer: HTMLDivElement
 	let loading: boolean = false
     let retry_attempts: number = 0
     let temp_loading: boolean = false
@@ -19,7 +20,16 @@
 	}
 
     const handleCopy = () => {
-        navigator.clipboard.writeText(document.getElementById('answer')?.childNodes[0].wholeText)
+        let final_copy = ""
+        answer_continer.childNodes.forEach(function (currentValue, currentIndex) {
+            console.log(`${currentValue}, ${currentIndex}`)
+            if(currentValue.nodeName === "BR") {
+                final_copy += "\n"
+            } else {
+                final_copy += currentValue.textContent + "\n"
+            }
+        }, "myThisArg")
+        navigator.clipboard.writeText(final_copy)
     }
 
 	const handleSubmit = async () => {
@@ -146,7 +156,7 @@
         <button type="submit" disabled="{temp_loading}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mb-10 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Generate 💫</button>
         {#if answer}
             <div class="w-full max-w-sm p-4 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                <div id="answer">{@html answer}</div>
+                <div bind:this={answer_continer}>{@html answer}</div>
                 {#if complete}
                     <div class="grid grid-cols-2 gap-2 pt-5">
                         <div>
