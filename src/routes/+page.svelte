@@ -87,7 +87,7 @@
 					<li>⦿ Networking and Mentorship: Connect with industry experts and like-minded entrepreneurs for guidance and collaboration.</li>
 				</ul>
                 <p class="text-base leading-relaxed text-gray-500 dark:text-slate-300">
-                    Stay tuned for the official launch of My Business Pal, and get ready to embark on a successful entrepreneurial journey with your new AI-powered companion!
+                    Stay tuned for the official launch of <span class="font-bold">My Business Pal</span>, and get ready to embark on a successful entrepreneurial journey with your new AI-powered companion!
                 </p>
             </div>
             <!-- Modal footer -->
