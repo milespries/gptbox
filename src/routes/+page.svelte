@@ -52,19 +52,19 @@
 <Modal title="Introducing My Business Pal: Your Ultimate Business Companion" bind:open={mbpModal} size="xl" autoclose>
 	<p class="text-base leading-relaxed text-gray-500 dark:text-slate-300">
 		We're excited to announce the current development of "My Business Pal", an AI-powered platform designed to help aspiring entrepreneurs and business owners bring their ideas to life.
-	</p>
+	</p><br>
 	<p class="text-base leading-relaxed text-gray-500 dark:text-slate-300">
 		With My Business Pal, you'll have access to a suite of powerful tools that will assist you in various aspects of starting and growing your business. Here's a sneak peek of what's in store:
-	</p>
+	</p><br>
 	<ul class="text-base leading-relaxed dark:text-slate-300">
-		<li>⦿ Business Idea Generation: Discover and refine innovative business ideas based on your interests and target market.</li>
-		<li>⦿ AI-driven Business Planning: Create comprehensive business plans with AI-assisted prompts and suggestions.</li>
-		<li>⦿ Branding Assistance: Generate unique business names, logos, and mottos tailored to your brand identity.</li>
-		<li>⦿ Market Analysis: Gain insights into your target audience and competitors to make data-driven decisions.</li>
-		<li>⦿ Strategy Development: Receive AI-generated marketing, financial, and growth strategies for your business.</li>
-		<li>⦿ Creative Problem Solving: Explore new angles and challenge your business assumptions with thought-provoking questions.</li>
-		<li>⦿ Networking and Mentorship: Connect with industry experts and like-minded entrepreneurs for guidance and collaboration.</li>
-	</ul>
+		<li>⦿ <span class="font-semibold">Business Idea Generation:</span> Discover and refine innovative business ideas based on your interests and target market.</li><br>
+		<li>⦿ <span class="font-semibold">AI-driven Business Planning:</span> Create comprehensive business plans with AI-assisted prompts and suggestions.</li><br>
+		<li>⦿ <span class="font-semibold">Branding Assistance:</span> Generate unique business names, logos, and mottos tailored to your brand identity.</li><br>
+		<li>⦿ <span class="font-semibold">Market Analysis:</span> Gain insights into your target audience and competitors to make data-driven decisions.</li><br>
+		<li>⦿ <span class="font-semibold">Strategy Development:</span> Receive AI-generated marketing, financial, and growth strategies for your business.</li><br>
+		<li>⦿ <span class="font-semibold">Creative Problem Solving:</span> Explore new angles and challenge your business assumptions with thought-provoking questions.</li><br>
+		<li>⦿ <span class="font-semibold">Networking and Mentorship:</span> Connect with industry experts and like-minded entrepreneurs for guidance and collaboration.</li><br>
+	</ul><br>
 	<p class="text-base leading-relaxed text-gray-500 dark:text-slate-300">
 		Stay tuned for the official launch of <span class="font-bold">My Business Pal</span>, and get ready to embark on a successful entrepreneurial journey with your new AI-powered companion!
 	</p>
