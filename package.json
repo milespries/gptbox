@@ -41,8 +41,11 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@popperjs/core": "^2.11.7",
+		"classnames": "^2.3.2",
 		"common-tags": "^1.8.2",
 		"flowbite": "^1.6.4",
+		"flowbite-svelte": "^0.34.3",
 		"gpt3-tokenizer": "^1.1.5",
 		"openai": "^3.2.0",
 		"sse.js": "^0.6.1"
