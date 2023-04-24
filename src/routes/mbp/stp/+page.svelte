@@ -96,7 +96,7 @@
         temp_loading = true
 		const chatMessages = [{ role: 'user', content: JSON.stringify(data.user.extraData1 ? {...data.user.config, ...data.user.extraData1} : data.user.config) }]
 
-		const eventSource = new SSE('/api/mbp/stp/first', {
+		const eventSource = new SSE('/api/first', {
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -114,7 +114,7 @@
 				//console.log(e.data)
 				if (e.data === '[DONE]') {
                     sharkTankPitchGeneration.name.status = true
-                    handleSecondStage(sharkTankPitchGeneration.name.string)
+                    handleSecondStage()
 					//answer = ''
 					return
 				}
@@ -136,14 +136,14 @@
 		eventSource.stream()
 	}
 
-    const handleSecondStage = async (string) => {
+    const handleSecondStage = async () => {
 		//const botResponse = answer ?? undefined
-        const content: String = JSON.stringify(data.user.extraData1 ? {...data.user.config, ...data.user.extraData1} : data.user.config) + "\n" + `{ "titleOutput": "${string}" }`
+        const content: String = JSON.stringify(data.user.extraData1 ? {...data.user.config, ...data.user.extraData1} : data.user.config) + "\n" + `{ "titleOutput": "${sharkTankPitchGeneration.name.string}" }`
 		loading = true
         temp_loading = true
 		const chatMessages = [{ role: 'user', content }]
 
-		const eventSource = new SSE('/api/mbp/stp/second', {
+		const eventSource = new SSE('/api/second', {
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -162,7 +162,7 @@
 				if (e.data === '[DONE]') {
                     sharkTankPitchGeneration.problem.status = true
                     sharkTankPitchGeneration.solution.status = true
-                    handleThirdStage(sharkTankPitchGeneration.name.string, sharkTankPitchGeneration.problem.string, sharkTankPitchGeneration.solution.string)
+                    handleThirdStage()
 					//answer = ''
 					return
 				}
@@ -192,14 +192,14 @@
 		eventSource.stream()
 	}
 
-    const handleThirdStage = async (string1, string2, string3) => {
+    const handleThirdStage = async () => {
 		//const botResponse = answer ?? undefined
-        const content: String = JSON.stringify(data.user.extraData1 ? {...data.user.config, ...data.user.extraData1} : data.user.config) + "\n" + `{ "titleOutput": "${string1}", "problemOutput": "${string2}", "solutionOutput": "${string3}" }`
+        const content: String = JSON.stringify(data.user.extraData1 ? {...data.user.config, ...data.user.extraData1} : data.user.config) + "\n" + `{ "titleOutput": "${sharkTankPitchGeneration.name.string}", "problemOutput": "${sharkTankPitchGeneration.problem.string}", "solutionOutput": "${sharkTankPitchGeneration.solution.string}" }`
 		loading = true
         temp_loading = true
 		const chatMessages = [{ role: 'user', content }]
 
-		const eventSource = new SSE('/api/mbp/stp/third', {
+		const eventSource = new SSE('/api/third', {
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -255,7 +255,7 @@
         temp_loading = true
 		const chatMessages = [{ role: 'user', content }]
 
-		const eventSource = new SSE('/api/mbp/stp/four', {
+		const eventSource = new SSE('/api/four', {
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -306,7 +306,7 @@
         temp_loading = true
 		const chatMessages = [{ role: 'user', content }]
 
-		const eventSource = new SSE('/api/mbp/stp/five', {
+		const eventSource = new SSE('/api/five', {
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -353,7 +353,7 @@
         temp_loading = true
 		const chatMessages = [{ role: 'user', content }]
 
-		const eventSource = new SSE('/api/mbp/stp/six', {
+		const eventSource = new SSE('/api/six', {
 			headers: {
 				'Content-Type': 'application/json'
 			},
