@@ -9,7 +9,7 @@ body {
 }
 
 body {
-	@apply bg-zinc-900 text-zinc-50;
+	@apply bg-gray-900 text-white;
 }
 
 h1 {
@@ -23,5 +23,5 @@ p {
 }
 
 form {
-	@apply flex flex-col pt-8 w-full;
+	@apply flex flex-col w-full;
 }
