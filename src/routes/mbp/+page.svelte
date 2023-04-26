@@ -159,6 +159,13 @@
 						{/if}
 					  </div>
 					  <div>
+						<Label for="aF" class="mb-2">Idea Stage</Label>
+						<Input id="aF" placeholder="Describe the current stage of your idea (e.g., Just an idea, Sketches, Prototype, MVP, etc.)" name="idea_stage" bind:value={$form.idea_stage} required />
+						{#if $errors.idea_stage}
+							<Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$errors.idea_stage}</Helper>
+						{/if}
+					  </div>
+					  <div>
 						<Label for="aD" class="mb-2">Business Idea</Label>
 						<Textarea id="aD" placeholder="Briefly describe your business idea in 2-3 sentences:" rows="4" name="business_idea" bind:value={$form.business_idea} required />
 						{#if $errors.business_idea}
@@ -177,13 +184,6 @@
 						<Textarea id="aF" placeholder="Explain what sets your product or service apart from competitors. List 2-3 main features of your product or service that make it stand out provide value." rows="4" name="selling_point" bind:value={$form.selling_point} required />
 						{#if $errors.selling_point}
 							<Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$errors.selling_point}</Helper>
-						{/if}
-					  </div>
-					  <div>
-						<Label for="aF" class="mb-2">Idea Stage</Label>
-						<Textarea id="aF" placeholder="Describe the current stage of your idea (e.g., Just an idea, Sketches, Prototype, MVP, etc.)" rows="4" name="idea_stage" bind:value={$form.idea_stage} required />
-						{#if $errors.idea_stage}
-							<Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$errors.idea_stage}</Helper>
 						{/if}
 					  </div>
 					{#if !data.user.config}
