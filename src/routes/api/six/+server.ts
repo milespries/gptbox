@@ -6,7 +6,8 @@ import { json } from '@sveltejs/kit'
 import type { Config } from '@sveltejs/adapter-vercel'
 
 export const config: Config = {
-	runtime: 'edge'
+	runtime: 'edge',
+	split: true
 }
 
 export const POST: RequestHandler = async ({ request }) => {
