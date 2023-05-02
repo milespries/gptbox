@@ -3,13 +3,16 @@
 	import { SSE } from 'sse.js'
 
     import { onMount } from 'svelte'
-	import { BottomNav, BottomNavItem, Button, Modal, Textarea, Label, Input, Checkbox, Helper, A, P, Heading, Span, Gallery, Card, Hr } from 'flowbite-svelte'
+	import { Button, Modal, Textarea, Label, Input, Checkbox, Helper, A, P, Heading, Span, Gallery, Card, Hr } from 'flowbite-svelte'
+    import BottomNav from "$lib/custom/BottomNav.svelte"
     import { superForm } from "sveltekit-superforms/client"
 	import SuperDebug from "sveltekit-superforms/client/SuperDebug.svelte"
 	import { z } from "zod"
 	import type { PageData } from "./$types"
 
 	export let data: PageData;
+    
+    $: extraFormModal1 = false
 
     let sharkTankPitchGeneration = {
         name: {string: "", status: false},
@@ -23,69 +26,13 @@
     }
     let authorizedUser = false
 	let formModal = false
-    let extraFormModal1 = false
     let temp_loading = false
     let loading = false
     let complete = false
 
+
     console.log(data.user)
     //f(Object.keys(data.session.config).length === 0){formModal = true}
-	
-	const { form, errors, enhance, constraints } = superForm(data.requiredFormA, {
-		taintedMessage: "Are you sure you want leave? All current form data will be lost.",
-		validators: {
-			name: (name) => (name.length < 2 ? "Idea name is too short." : null),
-			industry: (industry) => (industry.length < 2 ? "Incomplete Input." : null),
-			target_market: (target_market) => (target_market.length < 2 ? "Incomplete Input." : null),
-			business_idea: (business_idea) => (business_idea.length < 50 ? "Needs more information." : null),
-			problem_solved: (problem_solved) => (problem_solved.length < 2 ? "Incomplete Input." : null),
-            key_features: (selling_point) => (selling_point.length < 20 ? "Needs more information." : null),
-            idea_stage: (selling_point) => (selling_point.length < 2 ? "Incomplete Input." : null)
-		},
-		invalidateAll: false,
-		onUpdated({ form }) {
-			if (form.valid) {
-                formModal = false
-                authorizedUser = true
-                location.reload()
-                return false
-			}
-		}
-	})
-
-	const { form: extra1Form, errors: extra1Errors, enhance: extra1Enhance } = superForm(data.extra1Form, {
-		validators: {
-			marketResearch: (marketResearch) => (marketResearch.length < 5 ? "Incomplete Input." : null),
-			marketingStrategy: (marketingStrategy) => (marketingStrategy.length < 5 ? "Incomplete Input." : null),
-			teamMembers: (teamMembers) => (teamMembers.length < 5 ? "Incomplete Input." : null),
-			fundingOrHelp: (fundingOrHelp) => (fundingOrHelp.length < 4 ? "Incomplete Input." : null)
-		},
-        invalidateAll: false,
-        onUpdated({ form }) {
-			if (form.valid) {
-                extraFormModal1 = false
-                location.reload()
-                return false
-			}
-		}
-	})
-
-	//$form.name = "test"
-    if(data.user.config){
-		$form = data.user.config
-        if(data.user?.extraData1){
-            $extra1Form = data.user.extraData1
-        }
-	} else {
-		formModal = true
-	}
-
-    const clearFields = () => {
-        $form = {}
-        if(data.user?.extraData1){
-            $extra1Form = {}
-        }
-    }
 
     const handleSubmit = async () => {
 		//const botResponse = answer ?? undefined
@@ -445,7 +392,7 @@
         {/if}
         {#if complete}
             <div class="flex flex-row justify-center mt-8">
-                <p class="m-1 text-slate-300 text-sm align-bottom">A better pitch needs more context. See the difference for yourself by answering a few more questions.</p>
+                <p class="m-1 text-slate-300 text-sm align-bottom">A better pitch needs more context. See the difference yourself by answering a few more questions.</p>
                 <Button on:click={() => {extraFormModal1 = true}} size="xs">Here</Button>
             </div>
         {/if}
@@ -453,172 +400,5 @@
         
         <div id="bottom"></div>
     </main>
-    <BottomNav position="fixed" innerDiv="grid-cols-2">
-        <BottomNavItem btnName="Apps" on:click={() => (window.location.href="/mbp")}>
-            <svg
-                class="w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-            >
-                <g>
-                    <rect x="3" y="3" width="5" height="5" rx="1" ry="1" />
-                    <rect x="12" y="3" width="5" height="5" rx="1" ry="1" />
-                    <rect x="3" y="12" width="5" height="5" rx="1" ry="1" />
-                    <rect x="12" y="12" width="5" height="5" rx="1" ry="1" />
-                </g>
-            </svg>
-        </BottomNavItem>
-        <BottomNavItem btnName="My Business" on:click={() => (formModal=true)}>
-            <svg
-                class="w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-            >
-                <path
-                    d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"
-                />
-            </svg>
-        </BottomNavItem>
-    </BottomNav>
-    
-    <Modal bind:open={formModal} size="xs" autoclose={false} permanent={!data.user.config} class="w-full" id="modal1">
-        {#if !data.user.config}
-            <p class="text-gray-900 dark:text-red-500 p-0">
-                <span class="font-bold">*</span>Required
-            </p>
-            <Heading tag="h1" class="mb-4 text-center" customSize="text-4xl font-extrabold  md:text-5xl lg:text-6xl"><Span gradient>Let's Get Started!</Span></Heading>
-            <P>Share a few details about your business idea to unlock AI-powered tools tailored just for you.</P>
-        {:else if data.user.config}
-            <h1 class="py-5 text-3xl md:text-4xl lg:text-5xl text-center font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-cyan-200 to-sky-300">
-                {data.user.config.name}
-            </h1>
-        {/if}
-        {#if false}
-            <h3 class="text-xl text-center font-medium text-gray-900 dark:text-white p-0">What stage are you in?</h3>
-            <form class="flex flex-col space-y-6" action="#">
-                <Button type="submit" class="w-full">Idea</Button>
-                <Button type="submit" class="w-full">Start Up</Button>
-                <Button type="submit" class="w-full">Established</Button>
-            </form>
-        {:else if true}
-            <form method="POST" autocomplete="off" action="?/required" use:enhance>
-                <div class="grid gap-6 mb-6">
-                  <div>
-                    <Label for="aA" class="mb-2">Business Name</Label>
-                    <Input type="text" id="aA" placeholder="(can be refined later)" name="name" bind:value={$form.name} required />
-                    {#if $errors.name}
-                        <Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$errors.name}</Helper>
-                    {/if}
-                  </div>
-                  <div>
-                    <Label for="aB" class="mb-2">Business Industry</Label>
-                    <Input type="text" id="aB" placeholder="(e.g., Retail, Healthcare, Technology)" name="industry" bind:value={$form.industry} required />
-                    {#if $errors.industry}
-                        <Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$errors.industry}</Helper>
-                    {/if}
-                  </div>
-                  <div>
-                    <Label for="aC" class="mb-2">Target Market</Label>
-                    <Input type="text" id="aC" placeholder="(e.g., Millennials, Working Professionals, Parents)" name="target_market" bind:value={$form.target_market} required />
-                    {#if $errors.target_market}
-                        <Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$errors.target_market}</Helper>
-                    {/if}
-                  </div>
-                  <div>
-                    <Label for="aF" class="mb-2">Idea Stage</Label>
-                    <Input id="aF" placeholder="Describe the current stage of your idea (e.g., Just an idea, Sketches, Prototype, MVP, etc.)" name="idea_stage" bind:value={$form.idea_stage} required />
-                    {#if $errors.idea_stage}
-                        <Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$errors.idea_stage}</Helper>
-                    {/if}
-                  </div>
-                  <div>
-                    <Label for="aD" class="mb-2">Business Idea</Label>
-                    <Textarea id="aD" placeholder="Briefly describe your business idea in 2-3 sentences:" rows="4" name="business_idea" bind:value={$form.business_idea} required />
-                    {#if $errors.business_idea}
-                        <Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$errors.business_idea}</Helper>
-                    {/if}
-                  </div>
-                  <div>
-                    <Label for="aE" class="mb-2">Problem Solved</Label>
-                    <Textarea id="aE" placeholder="What problem will your business solve?" rows="4" name="problem_solved" bind:value={$form.problem_solved} required />
-                    {#if $errors.problem_solved}
-                        <Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$errors.problem_solved}</Helper>
-                    {/if}
-                  </div>
-                  <div>
-                    <Label for="aF" class="mb-2">Unique Selling Point</Label>
-                    <Textarea id="aF" placeholder="Explain what sets your product or service apart from competitors. List 2-3 main features of your product or service that make it stand out provide value." rows="4" name="selling_point" bind:value={$form.selling_point} required />
-                    {#if $errors.selling_point}
-                        <Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$errors.selling_point}</Helper>
-                    {/if}
-                  </div>
-                  <div class="flex flex-row justify-between">
-                    <Button on:click={() => {extraFormModal1 = true}} size="xs">More</Button>
-                    <Button on:click={() => {clearFields()}} size="xs" color="red">Reset</Button>
-                  </div>
-                {#if !data.user.config}
-                    <P size="xs">By submitting, I agree to the terms of the <A class="font-bold" href="#">MBP© Privacy Policy</A></P>
-                {/if}
-                <Button class="mb-10 mt-3" size="xl" type="submit">{data.user.config ? "Save Changes" : "Submit"}</Button>
-              </form>
-            <!--<form class="flex flex-col space-y-6" action="#">
-                <Input type="email" placeholder="Type Here..." size="lg" />
-                <div class="flex flex-row space-x-4">
-                    <Button outline type="submit" class="w-1/4">Back</Button>
-                    <Button type="submit" class="w-3/4">Next</Button>
-                </div>
-            </form>-->
-        {/if}
-    </Modal>
-
-    <Modal bind:open={extraFormModal1} size="xs" autoclose={false} class="w-full" id="modal2">
-        <P size="xl" space="wide" weight="semibold" class="mt-8">Share a few more details about {data.user.config.name} to further fine tune your AI tools.</P>
-        {#if false}
-         <h1>nothing</h1>>
-        {:else if true}
-            <form method="POST" autocomplete="off" action="?/add" use:extra1Enhance>
-                <div class="grid gap-6 mb-6">
-                  <div>
-                    <Label for="bA" class="mb-2">Market research</Label>
-                    <Textarea id="bA" placeholder="Briefly describe any market research or validation you have conducted. Or feedback you've received from potential customers." rows="3" name="marketResearch" bind:value={$extra1Form.marketResearch} required />
-                    {#if $extra1Errors.marketResearch}
-                        <Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$extra1Errors.marketResearch}</Helper>
-                    {/if}
-                  </div>
-                  <div>
-                    <Label for="bB" class="mb-2">Marketing strategy</Label>
-                    <Textarea id="bB" placeholder="Outline how you plan to reach your target market and promote your product or service (e.g., social media, events, etc.)" rows="3" name="marketingStrategy" bind:value={$extra1Form.marketingStrategy} required />
-                    {#if $extra1Errors.marketingStrategy}
-                        <Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$extra1Errors.marketingStrategy}</Helper>
-                    {/if}
-                  </div>
-                  <div>
-                    <Label for="bD" class="mb-2">Team members and roles</Label>
-                    <Textarea id="bD" placeholder="List your team members and their roles or skills they bring to the team." rows="3" name="teamMembers" bind:value={$extra1Form.teamMembers} required />
-                    {#if $extra1Errors.teamMembers}
-                        <Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$extra1Errors.teamMembers}</Helper>
-                    {/if}
-                  </div>
-                  <div>
-                    <Label for="bE" class="mb-2">Funding or help request</Label>
-                    <Textarea id="bE" placeholder="Specify what you're asking for in your pitch (e.g., investment, mentorship, partnerships, etc.), and provide a brief reason for the request." rows="3" name="fundingOrHelp" bind:value={$extra1Form.fundingOrHelp} required />
-                    {#if $extra1Errors.fundingOrHelp}
-                        <Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$extra1Errors.fundingOrHelp}</Helper>
-                    {/if}
-                  </div>
-                <Button class="mb-10 mt-3" type="submit">{data.user.extraData1 ? "Save Changes" : "Submit"}</Button>
-              </form>
-            <!--<form class="flex flex-col space-y-6" action="#">
-                <Input type="email" placeholder="Type Here..." size="lg" />
-                <div class="flex flex-row space-x-4">
-                    <Button outline type="submit" class="w-1/4">Back</Button>
-                    <Button type="submit" class="w-3/4">Next</Button>
-                </div>
-            </form>-->
-        {/if}
-    </Modal>
 </div>
+<BottomNav data={data} authorizedUser={data.user.config} extraFM1={extraFormModal1} />

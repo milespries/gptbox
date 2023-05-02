@@ -1,6 +1,5 @@
 import type { RequestEvent } from "@sveltejs/kit"
 import { LZString } from "$lib/lz-string.min"
-import type { Validation } from "sveltekit-superforms/index"
 import cryptoRandomString from 'crypto-random-string'
 
 

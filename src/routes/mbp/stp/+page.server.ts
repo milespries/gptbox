@@ -15,7 +15,6 @@ const newBusinessDataSchemaA = z.object({
 
 const extra1FormSchema = z.object({
 	marketResearch: z.string().min(1),
-	marketingStrategy: z.string().min(1),
 	teamMembers: z.string().min(1),
 	fundingOrHelp: z.string().min(1)
 })
@@ -66,5 +65,9 @@ export const actions = {
 		}
 	
 		return { form }
+	},
+	reset: async (event) => {
+		event.cookies.delete('config')
+		throw redirect(302, "/mbp/stp")
 	}
 }

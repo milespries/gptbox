@@ -8,7 +8,8 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			user: {
-				uuid: string
+				uuid: string,
+				authorized: boolean,
 				config: object,
 				extraData1: object
 			} | null
