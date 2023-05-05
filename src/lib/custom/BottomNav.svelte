@@ -6,7 +6,6 @@
 	import SuperDebug from "sveltekit-superforms/client/SuperDebug.svelte"
 	import { z } from "zod"
 	import type { PageData } from "./$types"
-	import { applyStyles } from '@popperjs/core'
 	import { page } from '$app/stores'
 
 	export let data: PageData;
@@ -20,6 +19,18 @@
     $: output = ''
     $: outputObj = {}
 
+    let autoComplete = {
+        outputs: [""],
+        buffer: "",
+        loading: false
+    }
+
+    $: if(autoComplete.loading) {
+        $form.business_idea = autoComplete.outputs[0]
+        $form.problem_solved = autoComplete.outputs[1]
+        $form.selling_point = autoComplete.outputs[2]
+    }
+
     $: formvcaLoading = false
     $: formvcaComplete = false
     $: formvcaFail = false
@@ -27,7 +38,6 @@
         extraFormModal1 = true
     }
     $: if(formvcaComplete) {
-        console.log('complete')
         formvcaLoading = false
         formModal = false
         authorizedUser = true
@@ -66,7 +76,6 @@
 			if (form.valid) {
                 formvcaLoading = true
                 if(!authorizedUser){
-                    console.log('check')
                     validCheck(form.data)
                 } else {
                     formModal = false
@@ -112,6 +121,72 @@
         }
     }
 
+    const handleAutoComplete = async (formData) => {
+		let count = 1
+		//const botResponse = answer ?? undefined
+        const content: String = JSON.stringify({...formData})
+		autoComplete.loading = true
+		const chatMessages = [{ role: 'user', content }]
+
+		const eventSource = new SSE('/api/ac', {
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			payload: JSON.stringify({ messages: chatMessages })
+		})
+
+		eventSource.addEventListener('error', (e) => {
+			autoComplete.loading = false
+            handleError(e)
+			alert('Something went wrong!')
+		})
+
+		eventSource.addEventListener('message', (e) => {
+			try {
+				autoComplete.loading = false
+				//console.log(e.data)
+				if (e.data === '[DONE]') {
+					//answer = ''
+					return
+				}
+
+                const completionResponse = JSON.parse(e.data)
+				const [{ delta }] = completionResponse.choices
+
+				if(delta.content){
+					if(delta.content === " ***") {
+						count++
+                        if(count === 4){
+                            $form.problem_solved = $form.problem_solved.substring(1)
+                            $form.selling_point = $form.selling_point.substring(1)
+                        }
+						return
+					} else {
+                        switch(count) {
+                            case 1:
+                                $form.business_idea = ($form.business_idea ?? '') + delta.content
+                                break
+                            case 2:
+                                $form.problem_solved = ($form.problem_solved ?? '') + delta.content
+                                break
+                            case 3:
+                                $form.selling_point = ($form.selling_point ?? '') + delta.content
+                                break
+                        }
+						
+					}
+				}
+				//console.log(completionResponse.choices[0].delta.content)
+			} catch (err) {
+				autoComplete.loading = false
+				handleError(err)
+				//alert('Something went wrong!')
+			}
+		})
+
+		eventSource.stream()
+	}
+    
     const validCheck = async (formData) => {
 		//const botResponse = answer ?? undefined
         const content: string = JSON.stringify(formData)
@@ -263,7 +338,12 @@
                     {/if}
                     </div>
                     <div>
-                    <Label for="aD" class="mb-2">Business Idea</Label>
+                    <div class="flex flex-row justify-between">
+                        <Label for="aD" class="mb-2">Business Idea</Label>
+                        {#if $form.name && $form.industry && $form.target_market && $form.idea_stage}
+                            <Button on:click={() => {handleAutoComplete($form)}} outline size="xs" color="" class="mb-2">🪄</Button>
+                        {/if}
+                    </div>
                     <Textarea id="aD" placeholder="Briefly describe your business idea in 2-3 sentences:" rows="4" name="business_idea" bind:value={$form.business_idea} required />
                     {#if $errors.business_idea}
                         <Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$errors.business_idea}</Helper>
