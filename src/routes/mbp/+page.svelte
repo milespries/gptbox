@@ -8,9 +8,16 @@
 	import type { PageData } from "./$types"
 	import { applyStyles } from '@popperjs/core'
 	import { page } from '$app/stores'
+	import { beforeNavigate } from '$app/navigation'
 
 	export let data: PageData;
 
+	let bodyElement;
+	onMount(() => {
+		bodyElement = document.getElementById('body')
+		bodyElement?.setAttribute('class', '')
+		bodyElement?.classList.add('pattern-topography-blue-950/30')
+	})
     //f(Object.keys(data.session.config).length === 0){formModal = true}
 
 	//const tools = [0,0,0,0,0,0,0,0,0,0]
@@ -26,6 +33,15 @@
 					<h5 class="mb-2 text-2xl font-bold tracking-tight text-white">Shark Tank Pitch</h5>
 					<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
 						Unleash the power of AI to create a compelling pitch for your business idea.
+					</p>
+					<!-- <p class="font-extrabold text-gray-700 dark:text-gray-400 leading-tight">
+						<Span>*</Span>Few more questions required
+					</p> -->
+				</Card>
+				<Card href="{data.user.config ? "/mbp/ng" : "/mbp?form=true"}">
+					<h5 class="mb-2 text-2xl font-bold tracking-tight text-white">Name Generator</h5>
+					<p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+						Discover the perfect name for your product or service.
 					</p>
 					<!-- <p class="font-extrabold text-gray-700 dark:text-gray-400 leading-tight">
 						<Span>*</Span>Few more questions required

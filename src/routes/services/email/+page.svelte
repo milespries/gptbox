@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { ChatCompletionRequestMessage, CreateChatCompletionResponse } from 'openai'
 	import { SSE } from 'sse.js'
+	import { onMount } from 'svelte'
 
 	let input_form = { "SETTINGS": { "user": "", "user_age": "", "recipient": "", "recipient_age": "", "recipient_description": "", "email_style": "", "email_purpose": "", "email_length": "" } }
 	let query: string = ''
@@ -12,6 +13,12 @@
 	let chatMessages: ChatCompletionRequestMessage[] = []
 	let scrollToDiv: HTMLDivElement
     let complete: boolean = false
+
+    let bodyElement;
+	onMount(() => {
+		bodyElement = document.getElementById('body')
+		bodyElement?.setAttribute('class', '')
+	})
 
     function scrollToBottom() {
 		setTimeout(function () {

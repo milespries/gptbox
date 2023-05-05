@@ -30,6 +30,12 @@
     let loading = false
     let complete = false
 
+    let bodyElement;
+	onMount(() => {
+		bodyElement = document.getElementById('body')
+		bodyElement?.setAttribute('class', '')
+		bodyElement?.classList.add('pattern-brick-wall-blue-950/20')
+	})
 
     console.log(data.user)
     //f(Object.keys(data.session.config).length === 0){formModal = true}

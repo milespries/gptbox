@@ -52,6 +52,7 @@
 		"gpt3-tokenizer": "^1.1.5",
 		"openai": "^3.2.0",
 		"sse.js": "^0.6.1",
+		"tailwindcss-patterns": "^0.1.2",
 		"tw-elements": "^1.0.0-beta2"
 	}
 }

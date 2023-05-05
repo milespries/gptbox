@@ -1,10 +1,17 @@
 <script lang="ts">
+	import { onMount } from 'svelte'
 	import type { PageData } from './$types';
 	import { Button, Modal } from 'flowbite-svelte';
 	let mbpModal = false;
-
+	
 
 	export let data: PageData;
+	let bodyElement;
+	onMount(() => {
+		bodyElement = document.getElementById('body')
+		bodyElement?.setAttribute('class', '')
+		bodyElement?.classList.add('pattern-circuit-board-blue-950/30')
+	})
 </script>
 
 <div class="lg:flex lg:flex-col lg:items-center lg:py-14 pb-6 pt-11 px-7">
