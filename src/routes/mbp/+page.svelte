@@ -16,7 +16,7 @@
 	onMount(() => {
 		bodyElement = document.getElementById('body')
 		bodyElement?.setAttribute('class', '')
-		bodyElement?.classList.add('pattern-topography-blue-950/30')
+		bodyElement?.classList.add('pattern-topography-blue-950/40')
 	})
     //f(Object.keys(data.session.config).length === 0){formModal = true}
 

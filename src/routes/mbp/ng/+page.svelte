@@ -32,7 +32,7 @@
 	onMount(() => {
 		bodyElement = document.getElementById('body')
 		bodyElement?.setAttribute('class', '')
-		bodyElement?.classList.add('pattern-stars-blue-950/10')
+		bodyElement?.classList.add('pattern-stars-blue-950/20')
 	})
 
 	const handleGeneration = () => {
@@ -64,6 +64,7 @@
 				//console.log(e.data)
 				if (e.data === '[DONE]') {
 					//answer = ''
+					console.log(nameObject)
 					return
 				}
 
@@ -126,7 +127,7 @@
 						<Radio name="1" value={"Auto"} bind:group={nameObject.style} custom>
 							<div class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
 							<div>
-								<div class="w-full text-lg font-semibold {nameObject.style == "1" ? "text-blue-500" : "text-gray-300"}">Auto</div>
+								<div class="w-full text-lg font-semibold {nameObject.style == "Auto" ? "text-blue-500" : "text-gray-300"}">Auto</div>
 								<div class="w-full">All Styles</div>
 							</div>
 							</div>
@@ -134,7 +135,7 @@
 						<Radio name="2" value={"Brandable Names"} bind:group={nameObject.style} custom>
 							<div class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
 								<div class="block">
-									<div class="w-full text-lg font-semibold {nameObject.style == "2" ? "text-blue-500" : "text-gray-300"}">Brandable Names</div>
+									<div class="w-full text-lg font-semibold {nameObject.style == "Brandable Names" ? "text-blue-500" : "text-gray-300"}">Brandable Names</div>
 									<div class="w-full">like Google or Rolex</div>
 								</div>
 							</div>
@@ -142,7 +143,7 @@
 						<Radio name="3" value={"Alternative Spelling"} bind:group={nameObject.style} custom>
 							<div class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
 							<div>
-								<div class="w-full text-lg font-semibold {nameObject.style == "3" ? "text-blue-500" : "text-gray-300"}">Alternative Spelling</div>
+								<div class="w-full text-lg font-semibold {nameObject.style == "Alternative Spelling" ? "text-blue-500" : "text-gray-300"}">Alternative Spelling</div>
 								<div class="w-full">like Lyft and Fiverr</div>
 							</div>
 							</div>
@@ -150,7 +151,7 @@
 						<Radio name="4" value={"Non-English Words"} bind:group={nameObject.style} custom>
 							<div class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
 								<div class="block">
-									<div class="w-full text-lg font-semibold {nameObject.style == "4" ? "text-blue-500" : "text-gray-300"}">Non-English Words</div>
+									<div class="w-full text-lg font-semibold {nameObject.style == "Non-English Words" ? "text-blue-500" : "text-gray-300"}">Non-English Words</div>
 									<div class="w-full">like Toyota and Audi</div>
 								</div>
 							</div>
@@ -158,7 +159,7 @@
 						<Radio name="5" value={"Compound Words"} bind:group={nameObject.style} custom>
 							<div class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
 							<div>
-								<div class="w-full text-lg font-semibold {nameObject.style == "5" ? "text-blue-500" : "text-gray-300"}">Compound Words</div>
+								<div class="w-full text-lg font-semibold {nameObject.style == "Compound Words" ? "text-blue-500" : "text-gray-300"}">Compound Words</div>
 								<div class="w-full">like FedEx and Microsoft</div>
 							</div>
 							</div>
@@ -166,7 +167,7 @@
 						<Radio name="6" value={"Real Words"} bind:group={nameObject.style} custom>
 							<div class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
 								<div class="block">
-									<div class="w-full text-lg font-semibold {nameObject.style == "6" ? "text-blue-500" : "text-gray-300"}">Real Words</div>
+									<div class="w-full text-lg font-semibold {nameObject.style == "Real Words" ? "text-blue-500" : "text-gray-300"}">Real Words</div>
 									<div class="w-full">like Apple and Amazon</div>
 								</div>
 							</div>
@@ -174,7 +175,7 @@
 						<Radio name="7" value={"Two Words"} bind:group={nameObject.style} custom>
 							<div class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
 							<div>
-								<div class="w-full text-lg font-semibold {nameObject.style == "7" ? "text-blue-500" : "text-gray-300"}">Two Words</div>
+								<div class="w-full text-lg font-semibold {nameObject.style == "Two Words" ? "text-blue-500" : "text-gray-300"}">Two Words</div>
 								<div class="w-full">like Facebook and Bitcoin</div>
 							</div>
 							</div>
@@ -182,7 +183,7 @@
 						<Radio name="8" value={"Short Phrase"} bind:group={nameObject.style} custom>
 							<div class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
 								<div class="block">
-									<div class="w-full text-lg font-semibold {nameObject.style == "8" ? "text-blue-500" : "text-gray-300"}">Short Phrase</div>
+									<div class="w-full text-lg font-semibold {nameObject.style == "Short Phrase" ? "text-blue-500" : "text-gray-300"}">Short Phrase</div>
 									<div class="w-full">like Dollar Shave Club</div>
 								</div>
 							</div>
@@ -202,7 +203,7 @@
 						<Radio name="1" value={"Low"} bind:group={nameObject.randomness} custom>
 							<div class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
 							<div>
-								<div class="w-full text-lg font-semibold {nameObject.randomness == "1" ? "text-blue-500" : "text-gray-300"}">Low</div>
+								<div class="w-full text-lg font-semibold {nameObject.randomness == "Low" ? "text-blue-500" : "text-gray-300"}">Low</div>
 								<div class="w-full">Less random. The most direct name ideas.</div>
 							</div>
 							</div>
@@ -210,7 +211,7 @@
 						<Radio name="2" value={"Medium"} bind:group={nameObject.randomness} custom>
 							<div class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
 								<div class="block">
-									<div class="w-full text-lg font-semibold {nameObject.randomness == "2" ? "text-blue-500" : "text-gray-300"}">Medium</div>
+									<div class="w-full text-lg font-semibold {nameObject.randomness == "Medium" ? "text-blue-500" : "text-gray-300"}">Medium</div>
 									<div class="w-full">Balanced. More creative results.</div>
 								</div>
 							</div>
@@ -218,7 +219,7 @@
 						<Radio name="3" value={"High"} bind:group={nameObject.randomness} custom>
 							<div class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
 							<div>
-								<div class="w-full text-lg font-semibold {nameObject.randomness == "3" ? "text-blue-500" : "text-gray-300"}">High</div>
+								<div class="w-full text-lg font-semibold {nameObject.randomness == "High" ? "text-blue-500" : "text-gray-300"}">High</div>
 								<div class="w-full">Random ideas. More varied results.</div>
 							</div>
 							</div>
@@ -255,11 +256,11 @@
 				</TabItem>
 			{:else if nameObject.stage === 4}
 				<TabItem class="w-full" open={nameObject.stage === 4}>
-					<span slot="title" class="font-extrabold">Results</span>
+					<div slot="title" class="">
+							<Progressbar progress="{((nameObject.outputs.length + 1) * 5).toString()}" color="{nameObject.outputs.length === 19 ? "green" : "blue"}" size="h-5" />
+					</div>
 					<div class="flex-wrap -mx-15 items-center justify-center box-border">
-						<div class="my-6">
-							<Progressbar progress="{((nameObject.outputs.length + 1) * 5).toString()}" color="{nameObject.outputs.length === 19 ? "green" : "blue"}" size="h-6" />
-						</div>
+						
 						<div>
 							<Table striped={true}>
 								<TableHead>
