@@ -1,7 +1,7 @@
 <script lang="ts">
     import { SSE } from 'sse.js'
 	import { onMount } from 'svelte'
-	import { Spinner, BottomNav, BottomNavItem, Button, Modal, Textarea, Label, Input, Checkbox, Helper, A, P, Heading, Span, Gallery, Card } from 'flowbite-svelte'
+	import { Badge, Spinner, BottomNav, BottomNavItem, Button, Modal, Textarea, Label, Input, Checkbox, Helper, A, P, Heading, Span, Gallery, Card } from 'flowbite-svelte'
     import { superForm } from "sveltekit-superforms/client"
 	import SuperDebug from "sveltekit-superforms/client/SuperDebug.svelte"
 	import { z } from "zod"
@@ -341,7 +341,11 @@
                     <div class="flex flex-row justify-between">
                         <Label for="aD" class="mb-2">Business Idea</Label>
                         {#if $form.name && $form.industry && $form.target_market && $form.idea_stage}
-                            <Button on:click={() => {handleAutoComplete($form)}} outline size="xs" color="" class="mb-2">🪄</Button>
+                         <!--<Button on:click={() => {handleAutoComplete($form)}} outline size="xs" color="" class="mb-2">🪄</Button>-->
+                         <!-- svelte-ignore a11y-click-events-have-key-events -->
+                         <div on:click={() => {handleAutoComplete($form)}}>
+                            <Badge class="mb-2" href="#" border rounded color="indigo">AI-Enhance 🪄</Badge>
+                         </div>
                         {/if}
                     </div>
                     <Textarea id="aD" placeholder="Briefly describe your business idea in 2-3 sentences:" rows="4" name="business_idea" bind:value={$form.business_idea} required />

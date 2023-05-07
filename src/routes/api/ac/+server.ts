@@ -31,7 +31,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		let tokenCount = 0
 
 		const messages: ChatCompletionRequestMessage[] = [
-			{ role: 'system', content: `Based on the provided user input JSON, generate a realistic form inputs for the following fields, Business Idea, Problem Solved, and Unique Selling Point . Consider the information about the user's business. Format the output as follows: "business idea *** problem solved *** unique selling point ***". You can not output anything other than the formatted output.` },
+			{ role: 'system', content: `Based on the provided user input JSON, generate a realistic form inputs for the following fields, Business Idea, Problem Solved, and Unique Selling Point. Consider the information about the user's business. If the fields you are generating are filled out, then enhance the inputs making them better. Format the output as follows: "business idea *** problem solved *** unique selling point ***". You can not output anything other than the formatted output.` },
 			{ role: 'user', content: `{  name: 'My Business Pal',   industry: 'Technology',   target_market: 'Aspiring entrapenuer',   business_idea: '',   problem_solved: '',   selling_point: '',   idea_stage: 'Prototype/MVP' }` },
 			{ role: 'assistant', content: `A user-friendly mobile app and web platform for aspiring entrepreneurs *** Streamlines the process of creating and managing business plans, financial projections, and market analysis *** AI-driven personalized guidance and real-time progress tracking for new entrepreneurs ***` },
 			...reqMessages
