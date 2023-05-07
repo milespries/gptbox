@@ -66,9 +66,9 @@
 			name: (name) => (name.length < 2 ? "Idea name is too short." : null),
 			industry: (industry) => (industry.length < 2 ? "Incomplete Input." : null),
 			target_market: (target_market) => (target_market.length < 2 ? "Incomplete Input." : null),
-			business_idea: (business_idea) => (business_idea.length < 50 ? "Needs more information." : null),
+			business_idea: (business_idea) => (business_idea.length < 15 ? "Needs more information." : null),
 			problem_solved: (problem_solved) => (problem_solved.length < 2 ? "Incomplete Input." : null),
-			selling_point: (selling_point) => (selling_point.length < 20 ? "Needs more information." : null),
+			selling_point: (selling_point) => (selling_point.length < 15 ? "Needs more information." : null),
             idea_stage: (selling_point) => (selling_point.length < 2 ? "Incomplete Input." : null)
 		},
 		invalidateAll: false,
