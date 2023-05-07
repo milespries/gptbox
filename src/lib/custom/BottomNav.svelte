@@ -22,6 +22,7 @@
     let autoComplete = {
         outputs: [""],
         buffer: "",
+        undoCache: ["", "", ""],
         loading: false
     }
 
@@ -122,6 +123,11 @@
     }
 
     const handleAutoComplete = async (formData) => {
+        if(!autoComplete.loading) {
+            autoComplete.undoCache[0] = $form.business_idea
+            autoComplete.undoCache[1] = $form.problem_solved
+            autoComplete.undoCache[2] = $form.selling_point
+        }
 		let count = 1
 		//const botResponse = answer ?? undefined
         const content: String = JSON.stringify({...formData})
@@ -143,10 +149,10 @@
 
 		eventSource.addEventListener('message', (e) => {
 			try {
-				autoComplete.loading = false
 				//console.log(e.data)
 				if (e.data === '[DONE]') {
 					//answer = ''
+                    autoComplete.loading = false
 					return
 				}
 
@@ -186,6 +192,13 @@
 
 		eventSource.stream()
 	}
+
+    const handleUndoAC = () => {
+        $form.business_idea = autoComplete.undoCache[0]
+        $form.problem_solved = autoComplete.undoCache[1]
+        $form.selling_point = autoComplete.undoCache[2]
+        autoComplete.undoCache = ["", "", ""]
+    }
     
     const validCheck = async (formData) => {
 		//const botResponse = answer ?? undefined
@@ -341,11 +354,18 @@
                     <div class="flex flex-row justify-between">
                         <Label for="aD" class="mb-2">Business Idea</Label>
                         {#if $form.name && $form.industry && $form.target_market && $form.idea_stage}
-                         <!--<Button on:click={() => {handleAutoComplete($form)}} outline size="xs" color="" class="mb-2">🪄</Button>-->
-                         <!-- svelte-ignore a11y-click-events-have-key-events -->
-                         <div on:click={() => {handleAutoComplete($form)}}>
-                            <Badge class="mb-2" href="#" border rounded color="indigo">AI-Enhance 🪄</Badge>
-                         </div>
+                            <div class="flex flex-row">
+                                {#if autoComplete.undoCache[0].length > 0}
+                                    <!-- svelte-ignore a11y-click-events-have-key-events -->
+                                    <div on:click={() => {handleUndoAC()}}>
+                                        <Badge class="mb-2" href="#" border rounded color="red">Undo</Badge>
+                                    </div>
+                                {/if}
+                                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                                <div on:click={() => {handleAutoComplete($form)}}>
+                                    <Badge class="ml-2 mb-2" href="#" border rounded color="indigo">AI-Enhance 🪄</Badge>
+                                </div>
+                            </div>
                         {/if}
                     </div>
                     <Textarea id="aD" placeholder="Briefly describe your business idea in 2-3 sentences:" rows="4" name="business_idea" bind:value={$form.business_idea} required />

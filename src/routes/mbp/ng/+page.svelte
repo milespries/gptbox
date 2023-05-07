@@ -60,8 +60,8 @@
 				nameObject.loading = false
 				// console.log(e.data)
 				if (e.data === '[DONE]') {
-					console.log(nameObject)
-					console.log(debug)
+					// console.log(nameObject)
+					// console.log(debug)
 					return
 				}
 
