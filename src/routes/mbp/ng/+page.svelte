@@ -14,6 +14,7 @@
 
 	let bodyElement
 
+	// let debug = ""
 	let nameObject = {
 		loading: false,
 		stage: 1,
@@ -37,8 +38,8 @@
 	const handleGeneration = () => {
 		let count = 0
 		nameObject.stage = 4
-		//const botResponse = answer ?? undefined
-        const content: String = JSON.stringify(data.user.extraData1 ? {...data.user.config, ...data.user.extraData1} : data.user.config) + "\n" + `{ "nameStyle": "${nameObject.style}", "nameRandomness": "${nameObject.randomness}", "optionalSettings": { "keywordsToInclude": "${nameObject.settings.keyWords}", "blacklistedWords": "${nameObject.settings.blacklistedWords}", "nameLength": ${nameObject.settings.maxLetters < 25 ? nameObject.settings.maxLetters : "any length" } } }`
+		// const botResponse = answer ?? undefined
+        const content: String = JSON.stringify(data.user.extraData1 ? {...data.user.config, ...data.user.extraData1} : data.user.config) + "\n" + `{ "nameStyle": "${nameObject.style}", "nameRandomness": "${nameObject.randomness}", "keywordsToInclude": "${nameObject.settings.keyWords}", "blacklistedWords": "${nameObject.settings.blacklistedWords}", "maxNameLength": ${nameObject.settings.maxLetters < 25 ? nameObject.settings.maxLetters : "no limit" } }`
 		nameObject.loading = true
 		const chatMessages = [{ role: 'user', content }]
 
@@ -57,9 +58,10 @@
 		eventSource.addEventListener('message', (e) => {
 			try {
 				nameObject.loading = false
-				//console.log(e.data)
+				// console.log(e.data)
 				if (e.data === '[DONE]') {
-					//console.log(nameObject)
+					console.log(nameObject)
+					console.log(debug)
 					return
 				}
 
@@ -67,6 +69,7 @@
 				const [{ delta }] = completionResponse.choices
 
 				if(delta.content){
+					// debug = (debug ?? '') + delta.content 
 					if(delta.content === " ***") {
 						if(nameObject.outputs[0].length === 0) {
 							nameObject.outputs[0] = nameObject.buffer
