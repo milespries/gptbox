@@ -38,7 +38,7 @@
 		let count = 0
 		nameObject.stage = 4
 		//const botResponse = answer ?? undefined
-        const content: String = JSON.stringify(data.user.extraData1 ? {...data.user.config, ...data.user.extraData1} : data.user.config) + "\n" + `{ "nameStyle": "${nameObject.style}", "nameRandomness": "${nameObject.randomness}", "optionalSettings": { "brandKeywords": "${nameObject.settings.keyWords}", "blacklistedWords": "${nameObject.settings.blacklistedWords}", "maxLetterLength": ${nameObject.settings.maxLetters < 25 ? nameObject.settings.maxLetters : '"no max"' } } }`
+        const content: String = JSON.stringify(data.user.extraData1 ? {...data.user.config, ...data.user.extraData1} : data.user.config) + "\n" + `{ "nameStyle": "${nameObject.style}", "nameRandomness": "${nameObject.randomness}", "optionalSettings": { "keywordsToInclude": "${nameObject.settings.keyWords}", "blacklistedWords": "${nameObject.settings.blacklistedWords}", "nameLength": ${nameObject.settings.maxLetters < 25 ? nameObject.settings.maxLetters : "any length" } } }`
 		nameObject.loading = true
 		const chatMessages = [{ role: 'user', content }]
 
@@ -59,8 +59,7 @@
 				nameObject.loading = false
 				//console.log(e.data)
 				if (e.data === '[DONE]') {
-					//answer = ''
-					console.log(nameObject)
+					//console.log(nameObject)
 					return
 				}
 
