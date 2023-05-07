@@ -28,7 +28,6 @@
 		buffer: ""
 	}
 
-	let nameObjetSettingsHelper = ["", "", 25]
 	onMount(() => {
 		bodyElement = document.getElementById('body')
 		bodyElement?.setAttribute('class', '')
@@ -39,9 +38,6 @@
 		let count = 0
 		nameObject.stage = 4
 		//const botResponse = answer ?? undefined
-		nameObject.settings.keyWords = nameObjetSettingsHelper[0]
-		nameObject.settings.blacklistedWords = nameObjetSettingsHelper[1]
-		nameObject.settings.maxLetters = nameObjetSettingsHelper[3]
         const content: String = JSON.stringify(data.user.extraData1 ? {...data.user.config, ...data.user.extraData1} : data.user.config) + "\n" + `{ "nameStyle": "${nameObject.style}", "nameRandomness": "${nameObject.randomness}", "optionalSettings": { "brandKeywords": "${nameObject.settings.keyWords}", "blacklistedWords": "${nameObject.settings.blacklistedWords}", "maxLetterLength": ${nameObject.settings.maxLetters < 25 ? nameObject.settings.maxLetters : '"no max"' } } }`
 		nameObject.loading = true
 		const chatMessages = [{ role: 'user', content }]
@@ -119,7 +115,7 @@
 	<div class="block max-w-xl md:w-full mt-8 mx-5 md:mx-auto px-15 box-border">
 		<Tabs style="full" defaultClass="flex rounded-lg divide-x divide-gray-200 shadow dark:divide-gray-700">
 			{#if nameObject.stage < 4}
-				<TabItem class="w-full" open={nameObject.stage === 1}>
+				<TabItem class="w-full" on:click={() => {nameObject.stage = 1}} open={nameObject.stage === 1}>
 					<span slot="title">Name Style</span>
 					<div class="flex-wrap mt-8 -mx-15 items-center justify-center box-border">
 						<p class="text-center mb-8 text-3xl font-medium dark:text-white">Select a style</p>
@@ -195,7 +191,7 @@
 							</div>
 						</div>
 				</TabItem>
-				<TabItem class="w-full" open={nameObject.stage === 2}>
+				<TabItem class="w-full" on:click={() => {nameObject.stage = 2}} open={nameObject.stage === 2}>
 					<span slot="title">Randomness</span>
 					<div class="flex-wrap mt-8 -mx-15 items-center justify-center box-border">
 						<p class="text-center mb-8 text-3xl font-medium dark:text-white">Generation Randomness</p>
@@ -232,7 +228,7 @@
 							</div>
 						</div>
 				</TabItem>
-				<TabItem class="" open={nameObject.stage === 3}>
+				<TabItem class="" on:click={() => {nameObject.stage = 3}} open={nameObject.stage === 3}>
 					<div slot="title" class="flex items-center gap-2">
 						<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z" /></svg>
 					  </div>
@@ -240,16 +236,16 @@
 						<p class="text-center mb-12 text-3xl font-medium dark:text-white">Optional Settings</p>
 						<div class="grid gap-10 w-full md:grid-cols-1 mb-8">
 							<div>
-								<FloatingLabelInput bind:value={nameObjetSettingsHelper[0]} style="filled" type="text" label="Brand Keywords"/>
+								<FloatingLabelInput bind:value={nameObject.settings.keyWords} style="filled" type="text" label="Brand Keywords"/>
 								<Helper class="pt-2">Add any keywords that may be related to your idea or business.</Helper>
 							</div>
 							<div>
-								<FloatingLabelInput bind:value={nameObjetSettingsHelper[1]} style="filled" type="text" label="Blacklist Words"/>
+								<FloatingLabelInput bind:value={nameObject.settings.blacklistedWords} style="filled" type="text" label="Blacklist Words"/>
 								<Helper class="pt-2">Words, prefixes or suffixes that should not be generated (separate with commas).</Helper>
 							</div>
 							<div>
-								<Range bind:value={nameObjetSettingsHelper[2]} id="range-minmax" size="lg" min="5" max="25"/>
-								<Helper class="pt-2">Maximum length of generated names: {nameObjetSettingsHelper[2] === 25 ? "none" : nameObjetSettingsHelper[2] + " letters"}</Helper>
+								<Range bind:value={nameObject.settings.maxLetters} id="range-minmax" size="lg" min="5" max="25"/>
+								<Helper class="pt-2">Maximum length of generated names: {nameObject.settings.maxLetters === 25 ? "none" : nameObject.settings.maxLetters + " letters"}</Helper>
 							</div>
 						</div>
 					</div>
@@ -278,7 +274,7 @@
 						<div class="grid gap-6 w-full md:grid-cols-2"></div>
 
 				</TabItem>
-				<TabItem on:click={() => {pageReload()}} class="w-1/4" open={false}>
+				<TabItem on:click={() => {nameObject.stage = 1; nameObject.outputs = [""]; nameObject.buffer = ""}} class="w-1/4" open={false}>
 					<span slot="title">Back</span>
 				</TabItem>
 			{/if}
