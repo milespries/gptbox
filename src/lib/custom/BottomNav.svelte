@@ -255,6 +255,7 @@
 	onMount(() => {
 		appContainer = document.getElementById('apps')
         mainForm = document.getElementById('mainForm')
+        extraForm = document.getElementById('extraForm')
         resetForm = document.getElementById('reset')
 	})
 
@@ -416,7 +417,7 @@
     {#if false}
         <h1>nothing</h1>>
     {:else if true}
-        <form id="mainForm" method="POST" autocomplete="off" action="?/add" use:extra1Enhance>
+        <form id="extraForm" method="POST" autocomplete="off" action="?/add" use:extra1Enhance>
             <div class="grid gap-6 mb-6">
                 <div>
                 <Label for="bA" class="mb-2">Market research & strategy</Label>
