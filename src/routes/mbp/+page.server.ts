@@ -14,6 +14,12 @@ const newBusinessDataSchemaA = z.object({
     idea_stage: z.string().min(1)
 })
 
+const extra1FormSchema = z.object({
+	marketResearch: z.string().min(1),
+	teamMembers: z.string().min(1),
+	fundingOrHelp: z.string().min(1)
+})
+
 const sharkTankPitchDataSchemaA = z.object({
 	main_competitors: z.string().min(1),
 	unique_selling_proposition: z.string().min(1),
@@ -60,6 +66,7 @@ export const actions = {
 					data: {
 						configs: {
 							create: {
+								userUUID: event.locals.user?.uuid,
 								businessName: event.locals.user?.config.name,
 								businessIndustry: event.locals.user?.config.industry,
 								businessTargetMarket: event.locals.user?.config.target_market,
@@ -79,6 +86,19 @@ export const actions = {
 				return fail(500, { message: "error 432" })
 			}
 		}
+		return { form }
+	},
+	add: async (event) => {
+		const form = await superValidate(event, extra1FormSchema, {
+            id: 'extra1Form'
+        })
+	
+		if (!form.valid) {
+			return fail(400, { form })
+		} else {
+			updateConfig(form, event, true)
+		}
+	
 		return { form }
 	},
 	reset: async (event) => {

@@ -62,6 +62,7 @@ export const actions = {
 						data: {
 							configs: {
 								create: {
+									userUUID: event.locals.user?.uuid,
 									businessName: event.locals.user?.config.name,
 									businessIndustry: event.locals.user?.config.industry,
 									businessTargetMarket: event.locals.user?.config.target_market,
