@@ -59,7 +59,6 @@
 			}
 		}
 
-    //f(Object.keys(data.session.config).length === 0){formModal = true}
 	
 	const { form, errors, enhance, constraints } = superForm(data.requiredFormA, {
 		taintedMessage: "Are you sure you want leave? All current form data will be lost.",
