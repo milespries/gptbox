@@ -29,6 +29,7 @@
 		"postcss-load-config": "^4.0.1",
 		"prettier": "^2.8.4",
 		"prettier-plugin-svelte": "^2.9.0",
+		"prisma": "^4.13.0",
 		"rome": "^11.0.0",
 		"svelte": "^3.55.1",
 		"svelte-check": "^3.0.4",
@@ -44,6 +45,7 @@
 	"type": "module",
 	"dependencies": {
 		"@popperjs/core": "^2.11.7",
+		"@prisma/client": "^4.13.0",
 		"classnames": "^2.3.2",
 		"common-tags": "^1.8.2",
 		"crypto-random-string": "^5.0.0",

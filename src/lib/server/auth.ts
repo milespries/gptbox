@@ -17,6 +17,7 @@ export const authenticateUser = (event: RequestEvent) => {
 	if (deobfConfig) {
 		const user = {
 			uuid: userUUID,
+			authorized: false,
 			config: deobfConfig.config,
 			extraData1: deobfConfig.extraData1
 		}
@@ -24,6 +25,7 @@ export const authenticateUser = (event: RequestEvent) => {
 	} else {
 		const user = {
 			uuid: userUUID,
+			authorized: false,
 			config: undefined,
 			extraData1: undefined
 		}

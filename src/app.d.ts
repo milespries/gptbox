@@ -20,6 +20,7 @@ declare global {
 			VITE_MESSAGE: string
 		}
 	}
+	var prisma: PrismaClient
 }
 
 export {};

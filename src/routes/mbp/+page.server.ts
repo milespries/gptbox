@@ -2,6 +2,7 @@ import { fail, redirect } from "@sveltejs/kit"
 import { z } from "zod"
 import { superValidate } from "sveltekit-superforms/server"
 import { updateConfig } from "$lib/server/auth.js"
+import { prisma } from "$lib/server/prisma"
 
 const newBusinessDataSchemaA = z.object({
 	name: z.string().min(1),
@@ -51,8 +52,33 @@ export const actions = {
 			return fail(400, { form })
 		} else {
 			updateConfig(form, event, false)
+			try {
+				await prisma.user.update({
+					where: {
+						uuid: event.locals.user.uuid,
+					},
+					data: {
+						configs: {
+							create: {
+								businessName: event.locals.user?.config.name,
+								businessIndustry: event.locals.user?.config.industry,
+								businessTargetMarket: event.locals.user?.config.target_market,
+								businessIdeaStage: event.locals.user?.config.idea_stage,
+								businessIdea: event.locals.user?.config.business_idea,
+								businessProblemSolved: event.locals.user?.config.problem_solved,
+								businessUniqueSellingPoint: event.locals.user?.config.selling_point,
+								businessMarketResearch: event.locals.user?.config.marketResearch,
+								businessTeam: event.locals.user?.config.teamMembers,
+								businessFunding: event.locals.user?.config.fundingOrHelp
+							}
+						}
+					},
+				})
+			} catch (err) {
+				console.error(err)
+				return fail(500, { message: "error 432" })
+			}
 		}
-	
 		return { form }
 	},
 	reset: async (event) => {
