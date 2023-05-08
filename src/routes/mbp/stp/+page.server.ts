@@ -57,12 +57,11 @@ export const actions = {
 				try {
 					await prisma.user.update({
 						where: {
-							uuid: event.locals.user.uuid,
+							uuid: event.locals.user?.uuid,
 						},
 						data: {
 							configs: {
 								create: {
-									userUUID: event.locals.user?.uuid,
 									businessName: event.locals.user?.config.name,
 									businessIndustry: event.locals.user?.config.industry,
 									businessTargetMarket: event.locals.user?.config.target_market,
