@@ -20,11 +20,13 @@ export const handle = async ({ event, resolve }) => {
 	}
 	const userCreate = async () => {
 		try {
-			await prisma.user.create({
-				data: {
-					uuid: event.locals.user?.uuid
-				},
-			})
+			if(event.locals.user != undefined){
+				await prisma.user.create({
+					data: {
+						uuid: event.locals.user.uuid
+					},
+				})
+			}
 		} catch (err) {
 			console.error(err)
 			return false
@@ -34,7 +36,9 @@ export const handle = async ({ event, resolve }) => {
 	}
 	uuidLookup().then((user) => {
 		if(user){
-			event.locals.user?.authorized = true
+			if(event.locals.user != undefined){
+				event.locals.user.authorized = true
+			}
 		} else if(!user) {
 			userCreate()
 		}
