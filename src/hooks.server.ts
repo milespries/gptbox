@@ -34,7 +34,7 @@ export const handle = async ({ event, resolve }) => {
 	}
 	uuidLookup().then((user) => {
 		if(user){
-			console.log('yes')
+			event.locals.user?.authorized = true
 		} else if(!user) {
 			userCreate()
 		}
