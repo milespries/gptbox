@@ -9,7 +9,7 @@ export const handle = async ({ event, resolve }) => {
 	const uuidLookup = async () => {
 		const name = await prisma.user.findUnique({
 			where: {
-				uuid: event.cookies.get("uuid"),
+				uuid: event.locals.user?.uuid,
 			},
 		})
 		if (!name) {
@@ -23,7 +23,7 @@ export const handle = async ({ event, resolve }) => {
 			if(event.locals.user != undefined){
 				await prisma.user.create({
 					data: {
-						uuid: event.cookies.get("uuid")
+						uuid: event.locals.user?.uuid
 					},
 				})
 			}
