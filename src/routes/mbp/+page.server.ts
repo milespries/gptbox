@@ -36,12 +36,12 @@ export const load = (async (event) => {
 	const requiredFormA = await superValidate(newBusinessDataSchemaA, {
 		id: 'requiredFormA'
 	})
-	const sharkTankPitchFormA = await superValidate(sharkTankPitchDataSchemaA, {
-		id: 'sharkTankPitchFormA'
+	const extra1Form = await superValidate(extra1FormSchema, {
+		id: 'extra1Form'
 	})
 	return { 
 		requiredFormA,
-		sharkTankPitchFormA,
+		extra1Form,
 		user: event.locals.user
 	}
 })
@@ -51,13 +51,11 @@ export const actions = {
 		const form = await superValidate(event, newBusinessDataSchemaA, {
 			id: 'requiredFormA'
 		})
-		
-		console.log(form)
 	
 		if (!form.valid) {
 			return fail(400, { form })
 		} else {
-			updateConfig(form, event, false)
+			updateConfig(form, event)
 			try {
 				await prisma.user.update({
 					where: {
@@ -72,10 +70,7 @@ export const actions = {
 								businessIdeaStage: event.locals.user?.config.idea_stage,
 								businessIdea: event.locals.user?.config.business_idea,
 								businessProblemSolved: event.locals.user?.config.problem_solved,
-								businessUniqueSellingPoint: event.locals.user?.config.selling_point,
-								businessMarketResearch: event.locals.user?.config.marketResearch,
-								businessTeam: event.locals.user?.config.teamMembers,
-								businessFunding: event.locals.user?.config.fundingOrHelp
+								businessUniqueSellingPoint: event.locals.user?.config.selling_point
 							}
 						}
 					},

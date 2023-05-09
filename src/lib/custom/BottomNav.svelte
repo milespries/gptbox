@@ -81,7 +81,9 @@
                     formModal = false
                     formvcaLoading = false
                     authorizedUser = true
-                    appContainer.classList.remove('blur-sm')
+                    if(appContainer){
+                        appContainer.classList.remove('blur-sm')
+                    }
                     location.reload()
                     return false
                 }
@@ -99,8 +101,7 @@
         onUpdated({ form }) {
 			if (form.valid) {
                 extraFormModal1 = false
-                location.reload()
-                return false
+                formModal = true
 			}
 		}
 	})
@@ -256,7 +257,7 @@
 	onMount(() => {
 		appContainer = document.getElementById('apps')
         mainForm = document.getElementById('mainForm')
-        extraForm1 = document.getElementById('extraForm')
+        extraForm1 = document.getElementById('extraForm1')
         resetForm = document.getElementById('reset')
 	})
 
@@ -390,7 +391,7 @@
                     </div>
                     <div class="flex flex-row justify-between">
                     {#if data.user.config}
-                        <Button on:click={() => {extraFormModal1 = true;  formModal = false; mainForm.submit();}} size="xs">More</Button>
+                        <Button on:click={() => {formModal = false; extraFormModal1 = true}} size="xs">More</Button>
                     {/if}
                     <Button on:click={() => {clearFields()}} size="xs" color="red">Clear</Button>
                     </div>
@@ -413,7 +414,7 @@
         {/if}
 </Modal>
 
-<Modal bind:open={extraFormModal1} size="xs" autoclose={false} class="w-full" id="modal2">
+<Modal bind:open={extraFormModal1} size="xs" autoclose={false} class="w-full" permanent >
     <P size="xl" space="wide" weight="semibold" class="mt-8">Share a few more details about {data.user.config.name} to further fine tune your AI tools.</P>
     {#if false}
         <h1>nothing</h1>>
@@ -441,7 +442,7 @@
                     <Helper class="mt-2" color="red"><span class="font-medium">ERROR</span> {$extra1Errors.fundingOrHelp}</Helper>
                 {/if}
                 </div>
-            <Button class="mb-10 mt-3" type="submit">{data.user.extraData1 ? "Save Changes" : "Submit"}</Button>
+                <Button class="mb-10 mt-3" type="submit">{data.user.extraData1 ? "Save Changes" : "Submit"}</Button>
             </form>
         <!--<form class="flex flex-col space-y-6" action="#">
             <Input type="email" placeholder="Type Here..." size="lg" />

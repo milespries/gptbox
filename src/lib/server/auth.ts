@@ -48,11 +48,12 @@ export const serializeUser = (event: RequestEvent) => {
 	}
 }
 
-export const updateConfig = (form, event: RequestEvent, addRequest: boolean) => {
+export const updateConfig = (form, event: RequestEvent) => {
 	let condense: string
-	console.log(form.data)
-	if(addRequest){
-		condense = LZString.compressToBase64(JSON.stringify({config: event.locals.user.config, extraData1: form.data}))
+	if(!form.data.name) {
+		condense = LZString.compressToBase64(JSON.stringify({config: event.locals.user?.config, extraData1: form.data}))
+	} else if(form.data.name && event.locals.user?.extraData1) {
+		condense = LZString.compressToBase64(JSON.stringify({config: form.data, extraData1: event.locals.user?.extraData1}))
 	} else {
 		condense = LZString.compressToBase64(JSON.stringify({config: form.data}))
 	}

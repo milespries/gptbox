@@ -47,7 +47,7 @@ export const actions = {
 		if (!form.valid) {
 			return fail(400, { form })
 		} else {
-			updateConfig(form, event, false)
+			updateConfig(form, event)
 			try {
 				await prisma.user.update({
 					where: {
@@ -62,10 +62,7 @@ export const actions = {
 								businessIdeaStage: event.locals.user?.config.idea_stage,
 								businessIdea: event.locals.user?.config.business_idea,
 								businessProblemSolved: event.locals.user?.config.problem_solved,
-								businessUniqueSellingPoint: event.locals.user?.config.selling_point,
-								businessMarketResearch: event.locals.user?.config.marketResearch,
-								businessTeam: event.locals.user?.config.teamMembers,
-								businessFunding: event.locals.user?.config.fundingOrHelp
+								businessUniqueSellingPoint: event.locals.user?.config.selling_point
 							}
 						}
 					},
