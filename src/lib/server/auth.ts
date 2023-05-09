@@ -36,7 +36,8 @@ export const authenticateUser = (event: RequestEvent) => {
 }
 
 export const serializeUser = (event: RequestEvent) => {
-	const uuid = cryptoRandomString({length: 69, type: 'alphanumeric'})
+	// const uuid = cryptoRandomString({length: 69, type: 'alphanumeric'})
+	const uuid = crypto.randomUUID().toString()
 	if(!event.cookies.get("key")){
 		event.cookies.set("key", uuid, {
 			path: "/",
