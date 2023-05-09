@@ -90,7 +90,7 @@ export const actions = {
 		if (!form.valid) {
 			return fail(400, { form })
 		} else {
-			updateConfig(form, event, true)
+			updateConfig(form, event)
 		}
 	
 		return { form }
