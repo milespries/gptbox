@@ -56,13 +56,13 @@ export const actions = {
 					data: {
 						configs: {
 							create: {
-								businessName: event.locals.user?.config.name,
-								businessIndustry: event.locals.user?.config.industry,
-								businessTargetMarket: event.locals.user?.config.target_market,
-								businessIdeaStage: event.locals.user?.config.idea_stage,
-								businessIdea: event.locals.user?.config.business_idea,
-								businessProblemSolved: event.locals.user?.config.problem_solved,
-								businessUniqueSellingPoint: event.locals.user?.config.selling_point
+								businessName: form.data.name,
+								businessIndustry: form.data.industry,
+								businessTargetMarket: form.data.target_market,
+								businessIdeaStage: form.data.idea_stage,
+								businessIdea: form.data.business_idea,
+								businessProblemSolved: form.data.problem_solved,
+								businessUniqueSellingPoint: form.data.selling_point
 							}
 						}
 					},

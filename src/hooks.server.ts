@@ -7,16 +7,16 @@ export const handle = async ({ event, resolve }) => {
 	serializeUser(event)
 	event.locals.user = authenticateUser(event)
 	const uuidLookup = async () => {
-		const name = await prisma.user.findUnique({
+		const user = await prisma.user.findUnique({
 			where: {
 				uuid: event.locals.user?.uuid,
 			},
 		})
-		if (!name) {
+		if (!user) {
 			// throw error(404, "error")
 			return false
 		}
-		return name
+		return user
 	}
 	const userCreate = async () => {
 		try {
@@ -39,7 +39,7 @@ export const handle = async ({ event, resolve }) => {
 			if(event.locals.user != undefined){
 				event.locals.user.authorized = true
 			}
-		} else if(!user) {
+		} else {
 			userCreate()
 		}
 	})
