@@ -255,10 +255,9 @@
 			{:else if nameObject.stage === 4}
 				<TabItem class="w-full" open={nameObject.stage === 4}>
 					<div slot="title" class="">
-							<Progressbar progress="{((nameObject.outputs.length + 1) * 5).toString()}" color="{nameObject.outputs.length === 19 ? "green" : "blue"}" size="h-5" />
+							<Progressbar progress="{((nameObject.outputs.length) * 5).toString()}" color="{nameObject.outputs.length === 20 ? "green" : "blue"}" size="h-5" />
 					</div>
 					<div class="flex-wrap -mx-15 items-center justify-center box-border">
-						
 						<div>
 							<Table striped={true}>
 								<TableHead>
