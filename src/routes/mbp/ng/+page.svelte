@@ -57,11 +57,11 @@
 
 		eventSource.addEventListener('message', (e) => {
 			try {
-				nameObject.loading = false
 				// console.log(e.data)
 				if (e.data === '[DONE]') {
 					// console.log(nameObject)
 					// console.log(debug)
+					nameObject.loading = false
 					return
 				}
 
@@ -255,7 +255,7 @@
 			{:else if nameObject.stage === 4}
 				<TabItem class="w-full" open={nameObject.stage === 4}>
 					<div slot="title" class="">
-							<Progressbar progress="{((nameObject.outputs.length) * 5).toString()}" color="{nameObject.outputs.length === 20 ? "green" : "blue"}" size="h-5" />
+							<Progressbar progress="{nameObject.loading ? ((nameObject.outputs.length + 1) * 5).toString() : "100"}" color="{nameObject.loading ? "blue" : "green"}" size="h-5" />
 					</div>
 					<div class="flex-wrap -mx-15 items-center justify-center box-border">
 						<div>
@@ -275,7 +275,7 @@
 						<div class="grid gap-6 w-full md:grid-cols-2"></div>
 
 				</TabItem>
-				<TabItem on:click={() => {nameObject.stage = 1; nameObject.outputs = [""]; nameObject.buffer = ""}} class="w-1/4" open={false}>
+				<TabItem on:click={() => {if(!nameObject.loading){nameObject.stage = 1; nameObject.outputs = [""]; nameObject.buffer = ""}}} disabled={nameObject.loading} class="w-1/4" open={false}>
 					<span slot="title">Back</span>
 				</TabItem>
 			{/if}
