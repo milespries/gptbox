@@ -73,15 +73,18 @@ export const POST: RequestHandler = async ({ request }) => {
         domainsArray.forEach((domain: string) => {
             let group: any[] = [];
             ['com', 'net', 'org'].forEach((tld: string) => {
-                let domainName = `${domain.toLowerCase()}.${tld}`;
-                if (resultsDict[domainName]) {
-                    group.push(resultsDict[domainName]);
+                if (!/[\s~`!@#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?()\._]/g.test(domain.replace(/\s/g, ''))) {
+                    let domainName = `${domain.toLowerCase().replace(/\s/g, '')}.${tld}`;
+                    if (resultsDict[domainName]) {
+                        group.push(resultsDict[domainName]);
+                    }
+                } else {
+                    group.push({invalid: true})
                 }
+                
             });
             orderedResults.push(group);
         });
-        console.log(orderedResults)
-        console.log(orderedResults.length)
         return json({ orderedResults })
     } catch (err) {
 		console.error(err)

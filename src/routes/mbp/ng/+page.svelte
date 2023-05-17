@@ -66,7 +66,7 @@
 			try {
 				// console.log(e.data)
 				if (e.data === '[DONE]') {
-					// console.log(nameObject)
+					// console.log(nameObject.outputs)
 					// console.log(debug)
 					if(nameObject.settings.p.domainCheck){
 						(async function() {
@@ -295,33 +295,36 @@
 							<Table striped={true}>
 								<TableHead>
 								  <TableHeadCell>Name</TableHeadCell>
-								  {#if nameObject.settings.p.domainOutput.length > 1}
-									<TableHeadCell>Domain</TableHeadCell>
-								  {/if}
 								</TableHead>
 								<TableBody>
 									{#each nameObject.outputs as output, i}
 										<TableBodyRow>
-											<TableBodyCell>{output}</TableBodyCell>
-											{#if nameObject.settings.p.domainOutput.length > 1}
-												<TableBodyCell tdClass="pr-6 py-4 whitespace-nowrap font-medium">
-													{#if nameObject.settings.p.domainOutput[i][0].purchasable}
-														<Badge large color="green">.com</Badge>
-													{:else if nameObject.settings.p.domainOutput[i][0].premium}
-														<Badge large color="yellow">.com</Badge>
+											<TableBodyCell>
+												{output}
+												{#if nameObject.settings.p.domainOutput.length > 1 && nameObject.settings.p.domainOutput[i][0].invalid}
+												<!---->
+												{:else}
+													{#if nameObject.settings.p.domainOutput.length > 1}
+														{#if nameObject.settings.p.domainOutput[i][0].purchasable && !nameObject.settings.p.domainOutput[i][0].premium}
+															<Badge large color="green">.com</Badge>
+														{:else if nameObject.settings.p.domainOutput[i][0].purchasable && nameObject.settings.p.domainOutput[i][0].premium}
+															<Badge large color="yellow">.com</Badge>
+														{/if}
+														{#if nameObject.settings.p.domainOutput[i][1].purchasable && !nameObject.settings.p.domainOutput[i][0].premium}
+															<Badge large color="green">.net</Badge>
+														{:else if nameObject.settings.p.domainOutput[i][1].purchasable && nameObject.settings.p.domainOutput[i][0].premium}
+															<Badge large color="yellow">.net</Badge>
+														{/if}
+														{#if nameObject.settings.p.domainOutput[i][2].purchasable && !nameObject.settings.p.domainOutput[i][0].premium}
+															<Badge large color="green">.org</Badge>
+														{:else if nameObject.settings.p.domainOutput[i][2].purchasable && nameObject.settings.p.domainOutput[i][0].premium}
+															<Badge large color="yellow">.org</Badge>
+														{:else}
+															<Badge color="pink">N/A</Badge>
+														{/if}
 													{/if}
-													{#if nameObject.settings.p.domainOutput[i][1].purchasable}
-														<Badge large color="green">.net</Badge>
-													{:else if nameObject.settings.p.domainOutput[i][1].premium}
-														<Badge large color="yellow">.net</Badge>
-													{/if}
-													{#if nameObject.settings.p.domainOutput[i][2].purchasable}
-														<Badge large color="green">.org</Badge>
-													{:else if nameObject.settings.p.domainOutput[i][2].premium}
-														<Badge large color="yellow">.org</Badge>
-													{/if}
-												</TableBodyCell>
-											{/if}
+												{/if}
+											</TableBodyCell>
 										</TableBodyRow>
 									{/each}
 								</TableBody>
@@ -330,7 +333,7 @@
 						<div class="grid gap-6 w-full md:grid-cols-2"></div>
 
 				</TabItem>
-				<TabItem on:click={() => {if(!nameObject.loading){nameObject.stage = 1; nameObject.outputs = [""]; nameObject.buffer = ""}}} disabled={nameObject.loading} class="w-1/4" open={false}>
+				<TabItem on:click={() => {if(!nameObject.loading){nameObject.stage = 1; nameObject.outputs = [""]; nameObject.buffer = ""; nameObject.settings.p.domainOutput = [""]; nameObject.settings.p.domainStatus = false; }}} disabled={nameObject.loading} class="w-1/4" open={false}>
 					<span slot="title">Back</span>
 				</TabItem>
 			{/if}
