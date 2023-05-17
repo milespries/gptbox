@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
-	import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell, Progressbar, Tabs, TabItem, Range, FloatingLabelInput, Radio, ButtonGroup, Button, Modal, Textarea, Label, Input, Checkbox, Helper, A, P, Heading, Span, Gallery, Card } from 'flowbite-svelte'
+	import { Spinner, Badge, Hr, Toggle, Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell, Progressbar, Tabs, TabItem, Range, FloatingLabelInput, Radio, ButtonGroup, Button, Modal, Textarea, Label, Input, Checkbox, Helper, A, P, Heading, Span, Gallery, Card } from 'flowbite-svelte'
 	import BottomNav from "$lib/custom/BottomNav.svelte"
+	import Confetti from "$lib/custom/Confetti.svelte"
     import { superForm } from "sveltekit-superforms/client"
 	import SuperDebug from "sveltekit-superforms/client/SuperDebug.svelte"
 	import { z } from "zod"
@@ -23,13 +24,19 @@
 		settings: {
 			keyWords: "",
 			blacklistedWords: "",
-			maxLetters: 25
+			maxLetters: 25,
+			p: {
+				domainStatus: false,
+				domainCheck: false,
+				domainOutput: [""]
+			}
 		},
 		outputs: [""],
 		buffer: ""
 	}
 
 	onMount(() => {
+		
 		bodyElement = document.getElementById('body')
 		bodyElement?.setAttribute('class', '')
 		bodyElement?.classList.add('pattern-stars-blue-950/20')
@@ -61,7 +68,25 @@
 				if (e.data === '[DONE]') {
 					// console.log(nameObject)
 					// console.log(debug)
-					nameObject.loading = false
+					if(nameObject.settings.p.domainCheck){
+						(async function() {
+							nameObject.settings.p.domainStatus = true
+							const response = await fetch('/api/poneng', {
+								method: 'POST',
+								body: JSON.stringify({ domains: {...nameObject.outputs} }),
+								headers: {
+									'Content-Type': 'application/json'
+								}
+							})
+							const { orderedResults } = await response.json()
+							nameObject.settings.p.domainOutput = orderedResults
+							nameObject.settings.p.domainStatus = false
+							nameObject.loading = false
+						})()
+					} else {
+						nameObject.loading = false
+					}
+					
 					return
 				}
 
@@ -74,7 +99,7 @@
 						if(nameObject.outputs[0].length === 0) {
 							nameObject.outputs[0] = nameObject.buffer
 						} else {
-							nameObject.outputs.push(nameObject.buffer)
+							nameObject.outputs.push(nameObject.buffer.substring(1))
 						}
 						nameObject.buffer = ''
 						return
@@ -108,10 +133,8 @@
 
 	//const tools = [0,0,0,0,0,0,0,0,0,0]
 	
+	
 </script>
-
-
-
 
 <div class="mb-20">
 	<div class="block max-w-xl md:w-full mt-8 mx-5 md:mx-auto px-15 box-border">
@@ -249,24 +272,56 @@
 								<Range bind:value={nameObject.settings.maxLetters} id="range-minmax" size="lg" min="5" max="25"/>
 								<Helper class="pt-2">Maximum length of generated names: {nameObject.settings.maxLetters === 25 ? "none" : nameObject.settings.maxLetters + " letters"}</Helper>
 							</div>
+							<div class="mt-4 inline-flex items-center justify-center w-full">
+								<p class="text-2xl font-semibold underline decoration-4 decoration-green-400">Premium Features</p>
+							</div>
+							<div>
+								<Toggle size="large" bind:checked={nameObject.settings.p.domainCheck}>Check Domain Availability</Toggle>
+							</div>
 						</div>
 					</div>
 				</TabItem>
 			{:else if nameObject.stage === 4}
 				<TabItem class="w-full" open={nameObject.stage === 4}>
 					<div slot="title" class="">
-							<Progressbar progress="{nameObject.loading ? ((nameObject.outputs.length + 1) * 5).toString() : "100"}" color="{nameObject.loading ? "blue" : "green"}" size="h-5" />
+							{#if nameObject.settings.p.domainCheck}
+								<Progressbar progress="{nameObject.loading && nameObject.settings.p.domainOutput.length === 1 ? ((nameObject.outputs.length) * 5 - 5).toString() : "100"}" color="{nameObject.loading ? "blue" : "green"}" size="h-5"/>
+							{:else}
+								<Progressbar progress="{nameObject.loading ? ((nameObject.outputs.length) * 5 - 5).toString() : "100"}" color="{nameObject.loading ? "blue" : "green"}" size="h-5"/>
+							{/if}
 					</div>
 					<div class="flex-wrap -mx-15 items-center justify-center box-border">
 						<div>
 							<Table striped={true}>
 								<TableHead>
 								  <TableHeadCell>Name</TableHeadCell>
+								  {#if nameObject.settings.p.domainOutput.length > 1}
+									<TableHeadCell>Domain</TableHeadCell>
+								  {/if}
 								</TableHead>
 								<TableBody>
-									{#each nameObject.outputs as output}
+									{#each nameObject.outputs as output, i}
 										<TableBodyRow>
 											<TableBodyCell>{output}</TableBodyCell>
+											{#if nameObject.settings.p.domainOutput.length > 1}
+												<TableBodyCell tdClass="pr-6 py-4 whitespace-nowrap font-medium">
+													{#if nameObject.settings.p.domainOutput[i][0].purchasable}
+														<Badge large color="green">.com</Badge>
+													{:else if nameObject.settings.p.domainOutput[i][0].premium}
+														<Badge large color="yellow">.com</Badge>
+													{/if}
+													{#if nameObject.settings.p.domainOutput[i][1].purchasable}
+														<Badge large color="green">.net</Badge>
+													{:else if nameObject.settings.p.domainOutput[i][1].premium}
+														<Badge large color="yellow">.net</Badge>
+													{/if}
+													{#if nameObject.settings.p.domainOutput[i][2].purchasable}
+														<Badge large color="green">.org</Badge>
+													{:else if nameObject.settings.p.domainOutput[i][2].premium}
+														<Badge large color="yellow">.org</Badge>
+													{/if}
+												</TableBodyCell>
+											{/if}
 										</TableBodyRow>
 									{/each}
 								</TableBody>

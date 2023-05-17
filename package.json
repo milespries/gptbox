@@ -29,7 +29,7 @@
 		"postcss-load-config": "^4.0.1",
 		"prettier": "^2.8.4",
 		"prettier-plugin-svelte": "^2.9.0",
-		"prisma": "^4.13.0",
+		"prisma": "^4.14.0",
 		"rome": "^11.0.0",
 		"svelte": "^3.55.1",
 		"svelte-check": "^3.0.4",
@@ -45,7 +45,7 @@
 	"type": "module",
 	"dependencies": {
 		"@popperjs/core": "^2.11.7",
-		"@prisma/client": "^4.13.0",
+		"@prisma/client": "^4.14.0",
 		"classnames": "^2.3.2",
 		"common-tags": "^1.8.2",
 		"crypto-random-string": "^5.0.0",
@@ -54,7 +54,9 @@
 		"gpt3-tokenizer": "^1.1.5",
 		"openai": "^3.2.0",
 		"sse.js": "^0.6.1",
+		"svelte-particles": "^2.9.3",
 		"tailwindcss-patterns": "^0.1.2",
+		"tsparticles": "^2.9.3",
 		"tw-elements": "^1.0.0-beta2"
 	}
 }
