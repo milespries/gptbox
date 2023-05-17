@@ -309,23 +309,19 @@
 															<Badge large color="green">.com</Badge>
 														{:else if nameObject.settings.p.domainOutput[i][0].purchasable && nameObject.settings.p.domainOutput[i][0].premium}
 															<Badge large color="yellow">.com</Badge>
-														{:else}
-															<Badge color="pink">N/A</Badge>
 														{/if}
 														{#if nameObject.settings.p.domainOutput[i][1].purchasable && !nameObject.settings.p.domainOutput[i][0].premium}
 															<Badge large color="green">.net</Badge>
 														{:else if nameObject.settings.p.domainOutput[i][1].purchasable && nameObject.settings.p.domainOutput[i][0].premium}
 															<Badge large color="yellow">.net</Badge>
-														{:else}
-															<Badge color="pink">N/A</Badge>
 														{/if}
 														{#if nameObject.settings.p.domainOutput[i][2].purchasable && !nameObject.settings.p.domainOutput[i][0].premium}
 															<Badge large color="green">.org</Badge>
 														{:else if nameObject.settings.p.domainOutput[i][2].purchasable && nameObject.settings.p.domainOutput[i][0].premium}
 															<Badge large color="yellow">.org</Badge>
-														{:else}
-															<Badge color="pink">N/A</Badge>
 														{/if}
+													{:else if !nameObject.settings.p.domainOutput[i][0].purchasable && !nameObject.settings.p.domainOutput[i][1].purchasable && !nameObject.settings.p.domainOutput[i][2].purchasable}
+														<Badge color="pink">N/A</Badge>
 													{/if}
 												{/if}
 											</TableBodyCell>
