@@ -320,7 +320,8 @@
 														{:else if nameObject.settings.p.domainOutput[i][2].purchasable && nameObject.settings.p.domainOutput[i][0].premium}
 															<Badge large color="yellow">.org</Badge>
 														{/if}
-													{:else if nameObject.settings.p.domainOutput.length > 1}
+													{/if}
+													{#if nameObject.settings.p.domainOutput.length > 1}
 														{#if !nameObject.settings.p.domainOutput[i][0].purchasable && !nameObject.settings.p.domainOutput[i][1].purchasable && !nameObject.settings.p.domainOutput[i][2].purchasable}
 															<Badge color="pink">N/A</Badge>
 														{/if}
