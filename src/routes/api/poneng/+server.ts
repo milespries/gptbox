@@ -22,7 +22,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
         const domainsArray: string[] = Object.values(domains)
 		const domainNames = domainsArray.map((domain: any) => 
-            [`${domain.toLowerCase()}.com`, `${domain.toLowerCase()}.net`, `${domain.toLowerCase()}.org`]
+            [`${domain.replace(/\s/g, '').toLowerCase()}.com`, `${domain.replace(/\s/g, '').toLowerCase()}.net`, `${domain.replace(/\s/g, '').toLowerCase()}.org`]
         ).flat();
 
         const midPoint = Math.ceil(domainNames.length / 2)
