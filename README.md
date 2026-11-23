@@ -1,38 +1,17 @@
-# create-svelte
+# GPT box
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+A small set of GPT tools I built in spring 2023, about two weeks after OpenAI opened the ChatGPT API (`gpt-3.5-turbo`). It's no longer maintained; I keep it here as an early project.
 
-## Creating a project
+![The email generator form](docs/email-generator.png)
 
-If you're seeing this, you've probably already done this step. Congrats!
+## What it did
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+- **Email generator.** Writes an email from who's sending it, who it's for, the tone, the length and the goal. A separate GPT call checks the inputs first and explains what's missing.
+- **Pitch builder.** Drafts a Shark Tank-style pitch for a business idea one section at a time, each with its own prompt, streamed in as it's written.
+- **Name generator.** Suggests business names and checks whether the .com, .net and .org are free through the name.com API.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## Stack
 
-## Developing
+SvelteKit, TypeScript, Tailwind and Flowbite. The OpenAI API, streamed to the browser with server-sent events. Prisma. Deployed on Vercel.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+The commit history is the original from 2023, moved to this repo in 2026.
